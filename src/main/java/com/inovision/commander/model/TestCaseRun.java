@@ -88,5 +88,20 @@ public class TestCaseRun {
 		this.contentType = contentType;
 	}
 	
+	@Override
+	public String toString() {
+		return "TestCaseRun [id=" + id + ", testCaseInstance=" + testCaseInstance + ", host=" + host + ", success="
+				+ success + ", runDate=" + runDate + ", returnCode=" + returnCode + ", error=" + error + ", result="
+				+ result + ", contentType=" + contentType + "]";
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return (obj != null) && (obj instanceof TestCaseRun) && (this.id == ((TestCaseRun)obj).id);
+	}
+	
+	@Override
+	public int hashCode() {
+		return 37 * id;
+	}
 }

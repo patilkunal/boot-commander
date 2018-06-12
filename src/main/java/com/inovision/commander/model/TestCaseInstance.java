@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,7 +18,7 @@ public class TestCaseInstance {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="TESTCASE_ID")
 	private TestCaseDefinition testCaseDefinition;
 	
@@ -92,6 +93,22 @@ public class TestCaseInstance {
 	public void setValidateType(ValidateType validateType) {
 		this.validateType = validateType;
 	}
+
+	@Override
+	public String toString() {
+		return "TestCaseInstance [id=" + id + ", testCaseDefinition=" + testCaseDefinition + ", user=" + user
+				+ ", validateOutput=" + validateOutput + ", outputTemplate=" + outputTemplate + ", allowBlankOutput="
+				+ allowBlankOutput + ", validateType=" + validateType + "]";
+	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return (obj != null) && (obj instanceof TestCaseInstance) && (this.id == ((TestCaseInstance)obj).id);
+	}
+	
+	@Override
+	public int hashCode() {
+		return 37 * id;
+	}
 	
 }

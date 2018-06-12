@@ -1,8 +1,10 @@
 package com.inovision.commander.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,7 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="TESTCASE")
@@ -27,7 +32,7 @@ public class TestCaseDefinition {
 	
 	private String description;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.REFRESH)
 	@JoinColumn(name="TEST_CATEGORY_ID")
 	private Category category;
 	
@@ -57,6 +62,10 @@ public class TestCaseDefinition {
 	@Column(name="VALIDATE_TYPE")
 	@Enumerated(EnumType.STRING)
 	private ValidateType validateType;
+	
+	@OneToMany(mappedBy="testCaseDefinition")
+	@JsonIgnore
+	private List<TestCaseInstance> testInstances;
 
 	public int getId() {
 		return id;
@@ -152,6 +161,14 @@ public class TestCaseDefinition {
 
 	public void setValidateType(ValidateType validateType) {
 		this.validateType = validateType;
+	}
+	
+	public List<TestCaseInstance> getTestInstances() {
+		return testInstances;
+	}
+	
+	public void setTestInstances(List<TestCaseInstance> testInstances) {
+		this.testInstances = testInstances;
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.tomcat.util.descriptor.web.ContextResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -14,7 +16,10 @@ import org.springframework.jndi.JndiObjectFactoryBean;
 @SpringBootApplication
 public class BootCommanderApplication {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(BootCommanderApplication.class);
+	
 	public static void main(String[] args) {
+		LOGGER.info("Starting the Boot Commander application");
 		SpringApplication.run(BootCommanderApplication.class, args);
 	}
 	

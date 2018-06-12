@@ -66,11 +66,28 @@ public class Category {
 	public void setHost(List<Host> host) {
 		this.host = host;
 	}
+	
+	public List<TestCaseDefinition> getTestCases() {
+		return testCases;
+	}
+	
+	public void setTestCases(List<TestCaseDefinition> testCases) {
+		this.testCases = testCases;
+	}
 
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return (obj != null) && (obj instanceof Category) && (this.id == ((Category)obj).id );
+	}
 	
+	@Override
+	public int hashCode() {
+		return 37 * id;
+	}
 	
 }
