@@ -7,6 +7,7 @@ import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.jndi.JndiObjectFactoryBean;
 
 @SpringBootApplication
+@EnableAutoConfiguration
 public class BootCommanderApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BootCommanderApplication.class);
@@ -50,6 +52,8 @@ public class BootCommanderApplication {
 		return tomcatServerFactory;
 	}
 	
+	/*
+	 * Commenting out since it causes issues while running tests
 	@Bean(destroyMethod="")
 	public DataSource jndiDataSource() throws IllegalArgumentException, NamingException {
 		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
@@ -59,5 +63,5 @@ public class BootCommanderApplication {
 		bean.afterPropertiesSet();
 		return (DataSource)bean.getObject();
 	}	
-	
+	*/
 }
