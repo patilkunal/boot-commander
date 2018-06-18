@@ -1,6 +1,5 @@
 package com.inovision.commander;
 
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.apache.tomcat.util.descriptor.web.ContextResource;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jndi.JndiObjectFactoryBean;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -27,7 +25,7 @@ public class BootCommanderApplication {
 	
 	@Bean
 	public TomcatServletWebServerFactory  tomcatFactory() {
-		TomcatServletWebServerFactory tomcatServerFactory = new TomcatServletWebServerFactory () {
+		return new TomcatServletWebServerFactory () {
 
 			@Override
 			protected void postProcessContext(org.apache.catalina.Context context) {
@@ -42,14 +40,12 @@ public class BootCommanderApplication {
 			
 			@Override
 			protected TomcatWebServer getTomcatWebServer(org.apache.catalina.startup.Tomcat tomcat) {
-				// TODO Auto-generated method stub
 				tomcat.enableNaming();
 				return super.getTomcatWebServer(tomcat);
 			}
 			
 		};
 		
-		return tomcatServerFactory;
 	}
 	
 	/*

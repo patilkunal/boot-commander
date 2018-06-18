@@ -42,12 +42,12 @@ public class TestCaseDefinitionController {
 	}
 
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public @ResponseBody TestCaseDefinition getTestCaseDefinition(@PathVariable("id") int id) {
+	public @ResponseBody TestCaseDefinition getTestCaseDefinition(@PathVariable("id") int id) throws NotfoundException {
 		return testCaseDefinitionService.getTestCaseDefinition(id);
 	}
 
 	@RequestMapping(value="/category/{catid}", method=RequestMethod.GET)
-	public @ResponseBody Iterable<TestCaseDefinition> getByCategory(@PathVariable("catid") int catid) {
+	public @ResponseBody Iterable<TestCaseDefinition> getByCategory(@PathVariable("catid") int catid) throws NotfoundException {
 		Category cat = categoryService.getCategory(catid);
 		if(cat != null) {
 			return testCaseDefinitionService.getTestCaseDefinitionByCategory(cat);
@@ -57,7 +57,7 @@ public class TestCaseDefinitionController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public @ResponseBody TestCaseDefinition save(@RequestBody TestCaseDefinition def) {
+	public @ResponseBody TestCaseDefinition save(@RequestBody TestCaseDefinition def) throws NotfoundException {
 		LOGGER.info("Trying to save " + def);
 		Category category = categoryService.getCategory(def.getId());
 		if(category != null) {
@@ -69,7 +69,7 @@ public class TestCaseDefinitionController {
 	}
 
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public @ResponseBody TestCaseDefinition update(@RequestBody TestCaseDefinition def) {
+	public @ResponseBody TestCaseDefinition update(@RequestBody TestCaseDefinition def) throws NotfoundException {
 		return testCaseDefinitionService.saveTestCaseDefinition(def);
 	}
 	

@@ -35,6 +35,18 @@ public class Category {
 	@JsonIgnore
 	private List<TestCaseDefinition> testCases;
 	
+	public Category() {		
+	}
+	
+	public Category(int id, String name, String desc, List<Host> host, List<TestCaseDefinition> testdefs) {
+		this.id = id;
+		this.name = name;
+		this.description = desc;
+		this.host = host;
+		this.testCases = testdefs;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

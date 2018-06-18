@@ -1,7 +1,5 @@
 package com.inovision.commander.controllers;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +20,8 @@ public class CategoryControllerTest extends TestCase {
 	@Autowired
 	private TestRestTemplate restTemplate;
 	
-	@SuppressWarnings("unchecked")
 	@Test
-	public void testGetCategories() {
+	public void test1GetCategories() {
 		ResponseEntity<Category[]> resp = this.restTemplate.getForEntity("/categories", Category[].class);
 		Category[] cats = resp.getBody();
 		assertNotNull(cats);
@@ -35,13 +32,15 @@ public class CategoryControllerTest extends TestCase {
 		assertTrue(cat1.getName().equals("Category 1"));
 	}
 	
-	public void testGetCategory() {
+	@Test
+	public void test2GetCategory() {
 		Category cat = this.restTemplate.getForObject("/categories/3", Category.class);
 		assertNotNull(cat);
 		assertTrue(cat.getName().equals("Category 3"));
 	}
 	
-	public void testSaveAndDeleteCategory() {
+	@Test
+	public void test3SaveAndDeleteCategory() {
 		Category cat = new Category();
 		cat.setName("Cat 4");
 		cat.setDescription("Desc 4");

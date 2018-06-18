@@ -4,6 +4,6 @@ export class Host {
                 public name: string, 
                 public hostName: string, 
                 public port: number, 
-                public ssl: boolean) 
-    {}
+                public ssl: boolean) {
+    }
 }

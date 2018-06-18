@@ -1,6 +1,6 @@
 package com.inovision.commander.service;
 
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +18,7 @@ import com.inovision.commander.repository.CategoryRepository;
 @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 public class CategoryService {
 
+	private static final String CATEGORY_NOT_FOUND_WITH_ID = "Category not found with id: ";
 	private CategoryRepository categoryRespository;
 	
 	@Autowired
@@ -30,30 +31,28 @@ public class CategoryService {
 	}
 	
 	public Category getCategory(int id) throws NotfoundException {
-		try {
-			return categoryRespository.findById(id).get();
-		} catch(NoSuchElementException nse) {
-			throw new NotfoundException("Category not found with id: " + id);
+		Optional<Category> optional = categoryRespository.findById(id);
+		if (optional.isPresent()) {
+			return optional.get();
+		} else {
+			throw new NotfoundException(CATEGORY_NOT_FOUND_WITH_ID + id);
 		}
 	}
 
 	@Transactional(readOnly=false)
 	public void deleteCategory(@PathVariable("id") Integer id) throws NotfoundException, OperationNotAllowed {
-		try {
-			if(categoryRespository.existsById(id)) {
-				Category cat = categoryRespository.findById(id).get();
-				if(cat.getHost() != null && cat.getHost().size() > 0) {
-					throw new OperationNotAllowed("Cannot delete category used to define existing hosts");
-				}
-				if(cat.getTestCases() != null && cat.getTestCases().size() > 0) {
-					throw new OperationNotAllowed("Cannot delete category used to define Test Definitions");
-				}
-				categoryRespository.deleteById(id);
-			} else { 
-				throw new NotfoundException("Category not found with id: " + id);
+		Optional<Category> optional = categoryRespository.findById(id);
+		if(optional.isPresent()) {
+			Category cat = optional.get();
+			if(cat.getHost() != null && !cat.getHost().isEmpty()) {
+				throw new OperationNotAllowed("Cannot delete category used to define existing hosts");
 			}
-		} catch(NoSuchElementException nse) {
-			throw new NotfoundException("Category not found with id: " + id);
+			if(cat.getTestCases() != null && !cat.getTestCases().isEmpty()) {
+				throw new OperationNotAllowed("Cannot delete category used to define Test Definitions");
+			}
+			categoryRespository.deleteById(id);
+		} else { 
+			throw new NotfoundException(CATEGORY_NOT_FOUND_WITH_ID + id);
 		}
 	}
 	
@@ -67,7 +66,7 @@ public class CategoryService {
 		if(categoryRespository.existsById(cat.getId())) {
 			return categoryRespository.save(cat);
 		} else {
-			throw new NotfoundException("Category not found with id: " + cat.getId());
+			throw new NotfoundException(CATEGORY_NOT_FOUND_WITH_ID + cat.getId());
 		}
 	}
 	
