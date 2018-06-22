@@ -12,7 +12,6 @@ export class CategoryResolve implements Resolve<Category> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Category | Observable<Category> | Promise<Category> {
         const id: number = parseInt(route.paramMap.get('id'), 10);
         return this.service.getCategory( id );
-        // throw new Error("Method not implemented.");
     }
 
 }

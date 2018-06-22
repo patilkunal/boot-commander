@@ -19,53 +19,74 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="TESTCASE")
+@Table(name = "TESTCASE")
 public class TestCaseDefinition {
 
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
+
 	private String description;
-	
-	@ManyToOne(cascade=CascadeType.REFRESH)
-	@JoinColumn(name="TEST_CATEGORY_ID")
+
+	@ManyToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "TEST_CATEGORY_ID")
 	private Category category;
-	
-	@Column(name="REST_URL")
+
+	@Column(name = "REST_URL")
 	private String restUrl;
-	
-	@Column(name="HTTP_METHOD")
+
+	@Column(name = "HTTP_METHOD")
 	@Enumerated(EnumType.STRING)
 	private HttpMethod httpMethod;
-	
-	@Column(name="HTTP_DATA")
+
+	@Column(name = "HTTP_DATA")
 	private String httpData;
-	
-	@Column(name="CONTENT_TYPE")
-	@Convert(converter=ContentTypeConverter.class)
+
+	@Column(name = "CONTENT_TYPE")
+	@Convert(converter = ContentTypeConverter.class)
 	private ContentType contentType;
-	
-	@Column(name="VALIDATE_OUTPUT")
+
+	@Column(name = "VALIDATE_OUTPUT")
 	private boolean validateOutput;
-	
-	@Column(name="OUTPUT_TEMPLATE")
+
+	@Column(name = "OUTPUT_TEMPLATE")
 	private String outputTemplate;
-	
-	@Column(name="ALLOW_BLANK_OUTPUT")
+
+	@Column(name = "ALLOW_BLANK_OUTPUT")
 	private boolean allowBlankOutput;
-	
-	@Column(name="VALIDATE_TYPE")
+
+	@Column(name = "VALIDATE_TYPE")
 	@Enumerated(EnumType.STRING)
 	private ValidateType validateType;
-	
-	@OneToMany(mappedBy="testCaseDefinition")
+
+	@OneToMany(mappedBy = "testCaseDefinition")
 	@JsonIgnore
 	private List<TestCaseInstance> testInstances;
+
+	public TestCaseDefinition() {
+	}
+
+	public TestCaseDefinition(int id, String name, String description, Category cat, String restUrl, HttpMethod method,
+			String httpData, ContentType ctype, boolean validate, String outTemplate, boolean allowBlank, ValidateType validateType,
+			List<TestCaseInstance> testInstances) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.category = cat;
+		this.restUrl = restUrl;
+		this.httpMethod = method;
+		this.httpData = httpData;
+		this.contentType = ctype;
+		this.validateOutput = validate;
+		this.outputTemplate = outTemplate;
+		this.allowBlankOutput = allowBlank;
+		this.validateType = validateType;
+		this.testInstances = testInstances;
+	}
 
 	public int getId() {
 		return id;
@@ -162,11 +183,11 @@ public class TestCaseDefinition {
 	public void setValidateType(ValidateType validateType) {
 		this.validateType = validateType;
 	}
-	
+
 	public List<TestCaseInstance> getTestInstances() {
 		return testInstances;
 	}
-	
+
 	public void setTestInstances(List<TestCaseInstance> testInstances) {
 		this.testInstances = testInstances;
 	}
@@ -179,4 +200,14 @@ public class TestCaseDefinition {
 				+ outputTemplate + ", allowBlankOutput=" + allowBlankOutput + ", validateType=" + validateType + "]";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		return (obj != null) && (obj instanceof TestCaseDefinition) && (((TestCaseDefinition)obj).id == id);
+	}
+	
+	@Override
+	public int hashCode() {
+		return 31 * id;
+	}
+
 }

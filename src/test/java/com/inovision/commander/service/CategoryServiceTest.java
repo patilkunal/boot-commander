@@ -77,8 +77,8 @@ public class CategoryServiceTest extends TestCase {
 	@Test
 	public void testGetCategoryNotFound() {
 		try {
-			Category cat = categoryService.getCategory(100);
-			fail("Should throw not found exception");
+			categoryService.getCategory(100);
+			fail("Should throw NotfoundException");
 		} catch(NotfoundException nfe) {
 			assertTrue(nfe.getMessage().contains("not found"));
 		}

@@ -19,7 +19,7 @@ import com.inovision.commander.repository.TestCaseDefinitionRepository;
 @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 public class TestCaseDefinitionService {
 	
-	private static final String DELETING_TEST_CASE_DEFINITION_BY_ID = "Deleting Test case definition by id %d";
+	private static final String DELETING_TEST_CASE_DEFINITION_BY_ID = "Deleting Test case definition by id {}";
 	private static final String CANNOT_DELETE_DEFINTION_WITHOUT_DELETING_THE_INSTANCES = "Cannot delete defintion without deleting the instances";
 	private static final String TEST_CASE_DEFINITION_NOT_FOUND = "Test case definition not found with id: %d";
 
@@ -66,7 +66,7 @@ public class TestCaseDefinitionService {
 	
 	@Transactional(readOnly=false)
 	public void deleteTestCaseDefinition(int id) throws NotfoundException, OperationNotAllowed {
-		LOGGER.debug(String.format(DELETING_TEST_CASE_DEFINITION_BY_ID, id));
+		LOGGER.debug(DELETING_TEST_CASE_DEFINITION_BY_ID, id);
 		Optional<TestCaseDefinition> optional = testCaseDefinitionRepository.findById(id);
 		if(optional.isPresent()) {
 			TestCaseDefinition tcd = optional.get();
