@@ -1,3 +1,5 @@
+<div class="card card-body">
+
 <p>
   Category List
 </p>
@@ -7,9 +9,10 @@
     <td>{{cat.name}}</td>
     <td>{{cat.testCount}}</td>
     <td style="text-align: right">
-        <button class="btn btn-primary" [routerLink]="['../' + cat.id]">Edit</button>
-        <button class="btn btn-default" (click)="deleteCategory()" [disabled]="cat.testCount > 0">Delete</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['../' + cat.id]">Edit</button>
+        <button type="button" class="btn btn-alert" (click)="deleteCategory(cat)"  [disabled]="cat.testCount > 0">Delete</button>
     </td>
   </tr>
 </table>
 
+</div>

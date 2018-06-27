@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { CategoriesService } from '../categories.service';
-import { Category } from '../../shared/models/category';
-import { ErrorHandlerService } from '../../shared/error-handler/error-handler.service';
-import { Subscription } from 'rxjs';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {CategoriesService} from '../categories.service';
+import {Category} from '../../shared/models/category';
+import {ErrorHandlerService} from '../../shared/error-handler/error-handler.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-category-detail',
@@ -20,7 +20,7 @@ export class CategoryDetailComponent implements OnInit {
   constructor(
     private actRoute: ActivatedRoute,
     private router: Router,
-    private service: CategoriesService,
+    private categoryService: CategoriesService,
     private errorHandler: ErrorHandlerService) {
   }
 
@@ -31,12 +31,17 @@ export class CategoryDetailComponent implements OnInit {
 
   save() {
     console.log('Saving category detail');
-    this.router.navigate(['/categories']);
+    this.categoryService.saveCategory(this.category)
+      .subscribe(
+      (data) => { this.router.navigate(['/categories']); },
+      (err) => this.errorHandler.handleHttpError(err)
+      );
+
   }
 
   cancel() {
     console.log('Cancelling save');
-    this.router.navigate(['/categories']);
+    this.router.navigate(['/categories/list']);
   }
 
 }
