@@ -1,18 +1,18 @@
-<div class="card card-body">
-
-<p>
-  Category List
-</p>
-<table class="table table-bordered table-condensed">
-  <tr><th>Name</th><th>Test Count</th><th>Actions</th></tr>
+<div class="card">
+<div class="card-header">
+  Categories
+</div>
+<div class="card-body">
+<table class="table table-bordered table-condensed table-striped">
+  <tr><th>Name</th><th>Test Count</th><th>&nbsp;</th></tr>
   <tr *ngFor="let cat of categories">
     <td>{{cat.name}}</td>
     <td>{{cat.testCount}}</td>
     <td style="text-align: right">
-        <button type="button" class="btn btn-primary" [routerLink]="['../' + cat.id]">Edit</button>
-        <button type="button" class="btn btn-alert" (click)="deleteCategory(cat)"  [disabled]="cat.testCount > 0">Delete</button>
+        <button type="button" class="btn btn-primary" [routerLink]="['../' + cat.id]">Edit</button> &nbsp;&nbsp; 
+        <button type="button" class="btn btn-danger" (click)="deleteCategory(cat)"  [disabled]="cat.testCount > 0">Delete</button>
     </td>
   </tr>
 </table>
-
+</div>
 </div>

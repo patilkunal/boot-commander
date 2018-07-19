@@ -20,7 +20,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.categoriesSub = this.service.getCategories()
-              .subscribe((data) => { this.categories = data; },
+              .subscribe((data) => { this.categories = data; console.log(this.categories); },
               (err) => this.errorHandler.handleHttpError(err),
               () => console.log('Categories get complete')
             );
@@ -31,6 +31,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(cat: Category) {
+      console.log(cat);
     if(cat.testCount == 0) {
       this.service.deleteCategory(cat.id).then(
           (data) => {
