@@ -13,7 +13,7 @@ import {Subscription} from 'rxjs';
 })
 export class CategoryDetailComponent implements OnInit {
 
-  public category: Category;
+  private category: Category;
   private id: number;
   private svcSubscription: Subscription;
 

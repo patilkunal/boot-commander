@@ -32,7 +32,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   deleteCategory(cat: Category) {
       console.log(cat);
-    if(cat.testCount == 0) {
+    if (cat.testCount === 0) {
       this.service.deleteCategory(cat.id).then(
           (data) => {
             console.log('Delete success');
@@ -42,7 +42,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
             this.errorHandler.handleHttpError(err);
           } );
     } else {
-      alert("Cannot delete this category used in test and/or host definitions");
+      alert('Cannot delete this category used in test and/or host definitions');
     }
   }
 

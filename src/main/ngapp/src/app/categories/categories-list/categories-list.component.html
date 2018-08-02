@@ -10,7 +10,7 @@
     <td>{{cat.testCount}}</td>
     <td style="text-align: right">
         <button type="button" class="btn btn-primary" [routerLink]="['../' + cat.id]">Edit</button> &nbsp;&nbsp; 
-        <button type="button" class="btn btn-danger" (click)="deleteCategory(cat)"  [disabled]="cat.testCount > 0">Delete</button>
+        <button type="button" class="btn btn-danger" (click)="deleteCategory(cat)"  [hidden]="cat.testCount > 0" >Delete</button>
     </td>
   </tr>
 </table>

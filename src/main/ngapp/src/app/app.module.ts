@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { CategoriesModule } from './categories/categories.module';
 import { NavComponent } from './nav/nav.component';
 import { HomeModule } from './home/home.module';
+import { HostsModule } from './hosts/hosts.module';
 import { ErrorHandlerModule } from './shared/error-handler/error-handler.module';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ErrorHandlerModule } from './shared/error-handler/error-handler.module'
     NgbModule.forRoot(),
     ErrorHandlerModule,
     HomeModule,
-    CategoriesModule
+    CategoriesModule,
+    HostsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
