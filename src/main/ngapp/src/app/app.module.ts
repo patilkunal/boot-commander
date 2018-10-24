@@ -10,6 +10,7 @@ import { NavComponent } from './nav/nav.component';
 import { HomeModule } from './home/home.module';
 import { HostsModule } from './hosts/hosts.module';
 import { ErrorHandlerModule } from './shared/error-handler/error-handler.module';
+import { ModalDialogModule } from './shared/dialog/modal-dialog.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ErrorHandlerModule } from './shared/error-handler/error-handler.module'
     ErrorHandlerModule,
     HomeModule,
     CategoriesModule,
-    HostsModule
+    HostsModule,
+    ModalDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

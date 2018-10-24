@@ -1,5 +1,7 @@
 package com.inovision.commander.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import com.inovision.commander.service.CategoryService;
 @RequestMapping(value="/categories", produces="application/json")
 public class CategoryContoller {
 	
+	private Logger LOGGER = LoggerFactory.getLogger(CategoryContoller.class);
 	private CategoryService categoryService;
 	
 	@Autowired
@@ -39,6 +42,12 @@ public class CategoryContoller {
 		categoryService.deleteCategory(id);
 		return "success";
 	}
+
+	@RequestMapping(method=RequestMethod.DELETE, value="/name/{name}")
+	public @ResponseBody String deleteCategoryByName(@PathVariable("name") String name) throws NotfoundException, OperationNotAllowed {
+		categoryService.deleteCategoryByName(name);
+		return "success";
+	}
 	
 	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
 	public @ResponseBody Category save(@RequestBody Category cat) {
@@ -47,6 +56,7 @@ public class CategoryContoller {
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT, consumes="application/json")
 	public @ResponseBody Category update(@PathVariable("id") Integer id, @RequestBody Category cat) throws NotfoundException {
+		LOGGER.debug("Category Update got following category: {}", cat);
 		cat.setId(id);
 		return categoryService.updateCategory(cat);
 	}
