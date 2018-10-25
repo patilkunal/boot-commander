@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +28,9 @@ public class Category {
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	@Transient
+	private int testCount = 0;
+
 	@OneToMany(mappedBy="category")
 	@JsonIgnore
 	private List<Host> host;
@@ -34,6 +38,7 @@ public class Category {
 	@OneToMany(mappedBy="category")
 	@JsonIgnore
 	private List<TestCaseDefinition> testCases;
+	
 	
 	public Category() {		
 	}
@@ -85,6 +90,14 @@ public class Category {
 	
 	public void setTestCases(List<TestCaseDefinition> testCases) {
 		this.testCases = testCases;
+	}
+	
+	public int getTestCount() {
+		return this.testCases != null ? this.testCases.size() :  0;
+	}
+	
+	public void setTestCount(int testCount) {
+		this.testCount = testCount;
 	}
 
 	@Override

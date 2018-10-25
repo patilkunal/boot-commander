@@ -16,7 +16,7 @@ public class Host {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
-	private int id;
+	private int id = -1;
 	
 	@Column(name="NAME")
 	private String name;

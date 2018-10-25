@@ -19,6 +19,7 @@ import com.inovision.commander.repository.CategoryRepository;
 public class CategoryService {
 
 	private static final String CATEGORY_NOT_FOUND_WITH_ID = "Category not found with id: ";
+	private static final String CATEGORY_NOT_FOUND_WITH_NAME = "Category not found with name: ";
 	private CategoryRepository categoryRespository;
 	
 	@Autowired
@@ -44,13 +45,7 @@ public class CategoryService {
 		Optional<Category> optional = categoryRespository.findById(id);
 		if(optional.isPresent()) {
 			Category cat = optional.get();
-			if(cat.getHost() != null && !cat.getHost().isEmpty()) {
-				throw new OperationNotAllowed("Cannot delete category used to define existing hosts");
-			}
-			if(cat.getTestCases() != null && !cat.getTestCases().isEmpty()) {
-				throw new OperationNotAllowed("Cannot delete category used to define Test Definitions");
-			}
-			categoryRespository.deleteById(id);
+			deleteCategory(cat);
 		} else { 
 			throw new NotfoundException(CATEGORY_NOT_FOUND_WITH_ID + id);
 		}
@@ -69,5 +64,25 @@ public class CategoryService {
 			throw new NotfoundException(CATEGORY_NOT_FOUND_WITH_ID + cat.getId());
 		}
 	}
-	
+
+	public void deleteCategoryByName(String name) throws NotfoundException, OperationNotAllowed {
+		Optional<Category> optional = categoryRespository.findByName(name);
+		if(optional.isPresent()) {
+			Category cat = optional.get();
+			deleteCategory(cat);
+		} else { 
+			throw new NotfoundException(CATEGORY_NOT_FOUND_WITH_NAME + name);
+		}		
+	}
+
+	private void deleteCategory(Category cat) throws OperationNotAllowed {
+		if(cat.getHost() != null && !cat.getHost().isEmpty()) {
+			throw new OperationNotAllowed("Cannot delete category used to define existing hosts");
+		}
+		if(cat.getTestCases() != null && !cat.getTestCases().isEmpty()) {
+			throw new OperationNotAllowed("Cannot delete category used to define Test Definitions");
+		}
+		categoryRespository.deleteById(cat.getId());
+		
+	}
 }

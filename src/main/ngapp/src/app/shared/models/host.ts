@@ -1,9 +1,11 @@
-export class Host {
+import {Category} from './category';
 
-    constructor(public id: number, 
-                public name: string, 
-                public hostName: string, 
-                public port: number, 
-                public ssl: boolean) {
-    }
+export class Host {
+    public id: number;
+    public name: string;
+    public hostName: string;
+    public port: number;
+    public secureHttp: boolean;
+    public category: Category;
+    
 }

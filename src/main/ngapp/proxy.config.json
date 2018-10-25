@@ -1,6 +1,6 @@
 {
 	"/api": {
-		"target": "http://localhost:8080/boot-commander",
+		"target": "http://localhost:9090/boot-commander",
 		"secure": false,
 		"pathRewrite": {
       		"^/api": "/"
