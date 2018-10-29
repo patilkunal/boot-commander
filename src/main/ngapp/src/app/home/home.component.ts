@@ -1,8 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-//import * as jQuery from 'jquery';
+import { Component, OnInit, ViewChild, ContentChild, AfterViewInit } from '@angular/core';
 import { ModalDialogComponent } from '../shared/dialog/modal-dialog.component';
-
-declare var jQuery:any;
 
 @Component({
   selector: 'app-home',
@@ -11,22 +8,22 @@ declare var jQuery:any;
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('hmodal') homemodal;
-
-  constructor() { }
+  // @ViewChild(ModalDialogComponent) homemodal;
+  @ViewChild('modalprompt') modalPrompt: ModalDialogComponent ;
+  
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    console.log("After view init");
-    console.log(this.homemodal);
+    console.log('After view Init');
   }
 
-  openDialog() {
-    jQuery(this.homemodal.nativeElement).modal('show'); 
-    console.log(this.homemodal);
-    //this.homemodal.open('123');
+  
+  openDialog(closeFunction) {
+    this.modalPrompt.open('Sample Title', 'Hello how are you', (result) => {
+      console.log(result);
+    }); 
   }
 
 }

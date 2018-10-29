@@ -1,9 +1,10 @@
+import { ModalDialogContent } from '../shared/dialog/modal-dialog.component';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
-//import { ModalDialogComponent } from '../shared/dialog/modal-dialog.component';
+import { ModalDialogModule } from '../shared/dialog/modal-dialog.module';
 
 const routes: Routes = [
      { path: 'home', component: HomeComponent }
@@ -13,12 +14,13 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ModalDialogModule
   ],
   declarations: [
-    HomeComponent
-//    ModalDialogComponent
+    HomeComponent    
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+entryComponents: [ModalDialogContent]    
 })
 export class HomeModule { }
