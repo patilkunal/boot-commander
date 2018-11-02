@@ -1,5 +1,6 @@
 package com.inovision.commander.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,14 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="[USER]")
+@Table(name="USERS")
 public class User {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(name="USERNAME", unique=true, nullable=false)
 	private String userName;
+	
+	@Column(unique=true, nullable=false)
 	private String password;
 	private String name;
 	private String email;
@@ -49,6 +53,9 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", name=" + name + ", email=" + email + "]";
+	}
 	
 }

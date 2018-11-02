@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -46,6 +47,11 @@ public class BootCommanderApplication {
 			
 		};
 		
+	}
+	
+	@Bean
+	public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 	
 	/*
