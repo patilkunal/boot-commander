@@ -28,15 +28,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-		Optional<User> optional = userRepository.findByUserName(arg0);
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		LOGGER.trace("JWT Trying to find user by userName {}", username);
+		
+		Optional<User> optional = userRepository.findByUserName(username);
 		if(optional.isPresent()) {
 			User user = optional.get();
-			LOGGER.debug("Found following user after authentication: {}", user);
+			LOGGER.debug("JWT Found following user after authentication: {}", user);
 			return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), Collections.EMPTY_LIST);
 		} else {
-			LOGGER.warn("User not found for username: " + arg0);
-			throw new UsernameNotFoundException(arg0);
+			LOGGER.warn("JWT User not found for username: " + username);
+			throw new UsernameNotFoundException(username);
 		}
 	}
 

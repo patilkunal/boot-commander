@@ -15,6 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,7 @@ import com.inovision.commander.model.User;;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+	private static Logger LOGGER =LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private AuthenticationManager authenticationManager;
 
@@ -42,7 +45,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             User creds = MAPPER
                     .readValue(request.getInputStream(), User.class);
-
+            LOGGER.trace("JWT Attempting authentication: " + creds);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUserName(),

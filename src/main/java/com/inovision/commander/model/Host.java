@@ -86,5 +86,8 @@ public class Host {
 	public int hashCode() {
 		return 37 * id;
 	}
-	
+
+	public String toUrlFormat() {		
+		return String.format("%s://%s:%d", secureHttp ? "https" : "http", hostName, port);
+	}	
 }

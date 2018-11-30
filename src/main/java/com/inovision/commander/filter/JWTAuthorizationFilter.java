@@ -35,9 +35,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
 		String header = req.getHeader(HEADER_STRING);
-		
+		LOGGER.trace("JWT Inside authorization filter");
 		if(header != null && header.startsWith(TOKEN_PREFIX)) {
 			UsernamePasswordAuthenticationToken auth = getAuthentication(req);			
+			LOGGER.trace("JWT Got authenticaton token {}", auth);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		}
 				

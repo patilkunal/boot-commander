@@ -1,0 +1,13 @@
+curl -si -X POST -H "Content-Type: application/json" -H "accept: application/json" -d '{"name": "admin", "password": "pass123", "email": "admin@localhost", "userName": "admin"}' http://localhost:9090/boot-commander/user/signup
+
+curl -si -X POST -H "Content-Type: application/json" -H "accept: application/json" -d '{"password": "pass123",  "username": "admin"}' http://localhost:9090/boot-commander/login
+
+curl -si -H "accept: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0MjA0ODE3M30.WUZWf6wu-3EaHHLb9e4MbV58V3ToXEcxOcuYY48JzVhvqQX9bITGmeeD2MMZh3cvIGh8mwsVMPBNWhgRWg36vA" 'http://localhost:9090/boot-commander/categories/1'
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0MjAzNzQ0MX0.c5zFuxuqxjuuDMQeaQCIBIH-5VlvExB2dOwE_opGt_83Hh0X_GJeXenP_wJEiE4or71m2_zXmeGUMM8BWdtasg
+
+
+2018-11-02 13:28:05.751 DEBUG 17008 --- [http-nio-9090-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : SecurityContextHolder not populated with anonymous token, as it already contained: 'org.springframework.security.authentication.UsernamePasswordAuthenticationToken@5860350: Principal: admin; Credentials: [PROTECTED]; Authenticated: false; Details: null; Not granted any authorities'
+
+2018-11-02 13:28:05.762 DEBUG 17008 --- [http-nio-9090-exec-10] o.s.s.a.dao.DaoAuthenticationProvider    : Authentication failed: no credentials provided
+
