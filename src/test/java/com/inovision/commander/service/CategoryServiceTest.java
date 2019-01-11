@@ -21,6 +21,7 @@ import com.inovision.commander.model.Category;
 import com.inovision.commander.repository.CategoryRepository;
 
 import junit.framework.TestCase;
+import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 public class CategoryServiceTest extends TestCase { 
@@ -66,6 +67,7 @@ public class CategoryServiceTest extends TestCase {
 		List<Category> list = new ArrayList<>(3);
 		itr.forEach(cat -> list.add(cat));
 		assertEquals(3, list.size());
+		assertThat(list.size()).isEqualTo(3);
 	}
 
 	@Test
