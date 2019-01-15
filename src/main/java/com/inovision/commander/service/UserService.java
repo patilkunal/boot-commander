@@ -47,6 +47,15 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	@Transactional(readOnly=false)
+	public void updateUserToken(String user, String token) {
+		userRepository.updateUserToken(user, token);
+	}
+	
+	@Transactional(readOnly=false)
+	public void updateTokenAccess(User user) {
+		userRepository.updateTokenAccess(user);
+	}
 	
 
 }

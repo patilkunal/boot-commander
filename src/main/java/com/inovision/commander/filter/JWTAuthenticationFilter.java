@@ -25,7 +25,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inovision.commander.model.User;;
+import com.inovision.commander.model.User;
+import com.inovision.commander.service.UserService;;
 
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -33,10 +34,22 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private static Logger LOGGER =LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private AuthenticationManager authenticationManager;
+	private UserService userService;
 
-	public JWTAuthenticationFilter(AuthenticationManager authManager) {
+	public JWTAuthenticationFilter(AuthenticationManager authManager, UserService userService) {
 		
 		this.authenticationManager = authManager;
+		this.userService = userService;
+	}
+	
+	@Override
+	protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
+		boolean required = super.requiresAuthentication(request, response);
+		if(required) {
+			LOGGER.warn("We need authentication - *****");
+			LOGGER.debug(request.getHeader("Authorization"));
+		}
+		return required;
 	}
 	
 	@Override
@@ -60,10 +73,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
+		String userName = ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername();
         String token = JWT.create()
-                .withSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername())
+                .withSubject(userName)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        userService.updateUserToken(userName, token);
 	}
 }
