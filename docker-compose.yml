@@ -1,0 +1,19 @@
+version: '3'
+services:
+  hsqldb:
+    restart: always
+    build: ./db/hsqldb
+    image: hsqldb-server
+    ports:
+    - 9001
+  
+  boot-commander:
+    restart: always
+    image: boot-commander
+    depends_on:
+    - hsqldb
+    build: .
+    ports:
+    - 9090
+    env:
+    - DB_HOST: hsqldb-server

@@ -35,7 +35,7 @@ public class BootCommanderApplication {
 				resource.setLookupName("jdbc/ApiTestDS");
 				resource.setType(DataSource.class.getName());
 				resource.setProperty("driverClassName", "org.hsqldb.jdbcDriver");
-				resource.setProperty("url", "jdbc:hsqldb:hsql://localhost:9001/testcasedb");
+				resource.setProperty("url", String.format("jdbc:hsqldb:hsql://%s:9001/testcasedb", getDBHost()));
 				context.getNamingResources().addResource(resource);
 			}
 			
@@ -43,6 +43,10 @@ public class BootCommanderApplication {
 			protected TomcatWebServer getTomcatWebServer(org.apache.catalina.startup.Tomcat tomcat) {
 				tomcat.enableNaming();
 				return super.getTomcatWebServer(tomcat);
+			}
+			
+			private String getDBHost() {
+				return (System.getenv("DB_HOSTNAME") == null) ? "localhost" : System.getenv("DB_HOSTNAME");  
 			}
 			
 		};
