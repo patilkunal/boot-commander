@@ -20,7 +20,6 @@ import com.inovision.commander.model.Category;
 import com.inovision.commander.model.ContentType;
 import com.inovision.commander.model.HttpMethod;
 import com.inovision.commander.model.TestCaseDefinition;
-import com.inovision.commander.model.TestCaseInstance;
 import com.inovision.commander.model.ValidateType;
 import com.inovision.commander.repository.TestCaseDefinitionRepository;
 

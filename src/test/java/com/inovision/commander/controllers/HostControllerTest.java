@@ -1,5 +1,9 @@
 package com.inovision.commander.controllers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +13,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.inovision.commander.BaseControllerWithAuthTest;
 import com.inovision.commander.model.Host;
-
-import junit.framework.TestCase;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HostControllerTest extends TestCase {
+public class HostControllerTest extends BaseControllerWithAuthTest {
 
 	@Autowired
 	private TestRestTemplate restTemplate;

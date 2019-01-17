@@ -1,24 +1,25 @@
 package com.inovision.commander.controllers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.inovision.commander.BaseControllerWithAuthTest;
 import com.inovision.commander.model.Category;
-
-import junit.framework.TestCase;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class CategoryControllerTest extends TestCase {
+public class CategoryControllerTest extends BaseControllerWithAuthTest {
 
-	@Autowired
-	private TestRestTemplate restTemplate;
+//	@Autowired
+//	private TestRestTemplate restTemplate;
 	
 	@Test
 	public void test1GetCategories() {
@@ -36,6 +37,7 @@ public class CategoryControllerTest extends TestCase {
 	public void test2GetCategory() {
 		Category cat = this.restTemplate.getForObject("/categories/3", Category.class);
 		assertNotNull(cat);
+		assertNotNull(cat.getName());
 		assertTrue(cat.getName().equals("Category 3"));
 	}
 	

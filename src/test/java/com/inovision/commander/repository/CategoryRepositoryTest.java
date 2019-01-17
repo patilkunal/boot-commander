@@ -24,7 +24,8 @@ public class CategoryRepositoryTest extends TestCase {
 	public void testFindAll() {
 		Iterable<Category> itr = categoryRepository.findAll();
 		List<Category> list = new ArrayList<Category>(3);
-		assertNotNull(itr);
+		assertNotNull(itr); 
+		assertTrue(itr.iterator().hasNext());
 		
 		itr.forEach(cat -> { System.out.println(cat); list.add(cat); });
 		
