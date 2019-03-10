@@ -1,11 +1,12 @@
 FROM java:8
 MAINTAINER Kunal Patil <kunalpatil@yahoo.com>
 
-RUN mkdir /opt/hsqldb
-WORKDIR /opt/hsqldb
 ADD . /opt/hsqldb
 RUN chmod +x /opt/hsqldb/*.sh
 
+VOLUME ["/data"]
+
 EXPOSE 9001
 
-CMD ./dbserver.sh
+WORKDIR /opt/hsqldb
+CMD ./dbserver.sh /data

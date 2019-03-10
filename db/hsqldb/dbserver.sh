@@ -2,6 +2,7 @@
 
 DATABASE=testcasedb.hsql
 DATAFILE=$DATABASE.script
+
 if [ $# -gt 0 ]
 then
     DATABASE=$1/testcasedb.hsql
