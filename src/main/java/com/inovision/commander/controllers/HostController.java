@@ -1,5 +1,7 @@
 package com.inovision.commander.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import com.inovision.commander.service.HostService;
 @RequestMapping(value="/hosts", produces="application/json")
 public class HostController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(HostController.class);
 	private HostService hostService;
 	
 	@Autowired
@@ -30,7 +33,9 @@ public class HostController {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
 	public @ResponseBody Host getHost(@PathVariable("id") Integer id) throws NotfoundException {
-		return hostService.getHost(id);
+		Host h = hostService.getHost(id);
+		LOGGER.info(h != null ? h.toString() : "Host not found");
+		return h;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, consumes="application/json")

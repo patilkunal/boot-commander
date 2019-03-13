@@ -1,14 +1,15 @@
 package com.inovision.commander.service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.inovision.commander.exception.NotfoundException;
 import com.inovision.commander.model.Host;
@@ -18,6 +19,7 @@ import com.inovision.commander.repository.HostRepository;
 @Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
 public class HostService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(HostService.class);
 	private HostRepository hostReposistory;
 	
 	@Autowired
@@ -27,8 +29,20 @@ public class HostService {
 
 	public Host getHost(Integer id) throws NotfoundException {
 		try {
-			return hostReposistory.findById(id).get();
+			return hostReposistory.findById(id).orElseThrow(NoSuchElementException::new);
+			/*
+			Optional<Host> optional = hostReposistory.findById(id).orElse((Host)null);
+			if(optional.isPresent()) {
+				Host h = optional.get();
+				LOGGER.debug(h.toString());
+				return h;
+			} else {
+				LOGGER.warn("Host not found with idddd: " + id);
+				throw new NotfoundException("Host not found with id: " + id);
+			}
+			*/
 		} catch(NoSuchElementException nse) {
+			LOGGER.warn("Host not found with id: " + id);
 			throw new NotfoundException("Host not found with id: " + id);
 		}
 	}

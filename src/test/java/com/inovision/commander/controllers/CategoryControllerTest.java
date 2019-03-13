@@ -24,6 +24,7 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 	@Test
 	public void test1GetCategories() {
 		ResponseEntity<Category[]> resp = this.restTemplate.getForEntity("/categories", Category[].class);
+		assertTrue(resp.getStatusCode().is2xxSuccessful());
 		Category[] cats = resp.getBody();
 		assertNotNull(cats);
 		assertEquals(3, cats.length);
@@ -47,11 +48,13 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 		cat.setName("Cat 4");
 		cat.setDescription("Desc 4");
 		ResponseEntity<Category> resp = this.restTemplate.postForEntity("/categories", cat, Category.class);
+		assertTrue(resp.getStatusCode().is2xxSuccessful());
 		Category saved = resp.getBody();
 		assertNotNull(saved);
 		assertTrue(cat.getName().equals(saved.getName()));
 
 		ResponseEntity<Category[]> resp2 = this.restTemplate.getForEntity("/categories", Category[].class);
+		assertTrue(resp2.getStatusCode().is2xxSuccessful());
 		Category[] cats = resp2.getBody();
 		assertNotNull(cats);
 		assertEquals(4, cats.length);
