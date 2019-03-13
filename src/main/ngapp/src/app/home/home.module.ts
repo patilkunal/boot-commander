@@ -5,9 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { ModalDialogModule } from '../shared/dialog/modal-dialog.module';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
-     { path: 'home', component: HomeComponent }
+     { path: 'home', component: HomeComponent, canActivate: [AuthGuard]  }
 ];
 
 

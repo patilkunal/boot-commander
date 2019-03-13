@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenStorage } from '../shared/TokenStorage';
 
 @Component({
   selector: 'app-commander-nav',
@@ -8,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class NavComponent implements OnInit {
 
   isNavbarCollapsed = true;
-  constructor() { }
+  constructor(private tokenStorage: TokenStorage) { }
 
   ngOnInit() {
+  }
+
+  isLoggedIn(): boolean {
+    return (this.tokenStorage.getAuthToken() != null);
   }
 
 }

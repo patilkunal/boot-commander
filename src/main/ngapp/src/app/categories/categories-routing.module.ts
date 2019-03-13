@@ -4,9 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
 import { CategoryResolve } from './category-resolve';
+import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
-    {path: 'categories',
+    {path: 'categories', canActivate: [AuthGuard],
         children: [
             {
               path: '',

@@ -12,8 +12,10 @@ import { LoginModule } from './login/login.module';
 import { HostsModule } from './hosts/hosts.module';
 import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './login/token-interceptor';
+import { TokenInterceptor } from './auth/token-interceptor';
 import { TokenStorage } from './shared/TokenStorage';
+import { AuthModule } from './auth/auth.module';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -28,13 +30,16 @@ import { TokenStorage } from './shared/TokenStorage';
     HomeModule,
     LoginModule,
     CategoriesModule,
-    HostsModule
+    HostsModule,
+    AuthModule
   ],
-  providers: [{
+  providers: [
+    AuthGuard, TokenStorage,
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }, TokenStorage],
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

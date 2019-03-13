@@ -3,11 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login.component';
-import { LogoutComponent } from './logout.component';
-import { AuthService } from './auth.service';
 import { SharedModule } from '../shared/shared.module';
 import { ModalDialogModule } from '../shared/dialog/modal-dialog.module';
 import { ModalDialogContent } from '../shared/dialog/modal-dialog.component';
+import { AuthModule } from '../auth/auth.module';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent }
@@ -19,13 +18,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     SharedModule,
-    ModalDialogModule
+    ModalDialogModule,
+    AuthModule
   ],
-  declarations: [LoginComponent, LogoutComponent],
+  declarations: [LoginComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-entryComponents: [ModalDialogContent],
-  providers: [
-    AuthService
-  ]
+entryComponents: [ModalDialogContent]
 })
 export class LoginModule { }

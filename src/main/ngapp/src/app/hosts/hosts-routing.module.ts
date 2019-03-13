@@ -3,10 +3,11 @@ import { HostResolve } from './host-resolve';
 import { HostsListComponent } from './list/hosts-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../auth/auth.guard';
 
 
 const routes: Routes = [
-    {path: 'hosts',
+    {path: 'hosts', canActivate: [AuthGuard],
         children: [
             {
               path: '',

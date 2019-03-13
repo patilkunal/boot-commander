@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
-import { AuthService } from './auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 import { TokenStorage } from '../shared/TokenStorage';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { ModalDialogComponent } from '../shared/dialog/modal-dialog.component';
 
 @Component({
@@ -19,10 +16,19 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('modalprompt') modalPrompt: ModalDialogComponent ;
   
-  constructor(private router: Router, private authService: AuthService, private tokenStorage: TokenStorage) { }
+  constructor(
+    private router: Router, 
+    private authService: AuthService, 
+    private tokenStorage: TokenStorage,
+    private actRoute: ActivatedRoute
+    ) { }
 
   ngOnInit() {
-    if (this.tokenStorage.getAuthToken() != null) {
+    const isLogout: boolean = (this.actRoute.snapshot.queryParams['logout'] != null);
+    if (isLogout) {
+      console.log('Logging out User');
+      this.tokenStorage.logout();
+    } else if (this.tokenStorage.getAuthToken() != null) {
       // TODO: validate existing token by making HTTP call
       // redirect to home page since we already have valid token
       console.log('Already authenticated ... redirecting to home');
@@ -39,8 +45,10 @@ export class LoginComponent implements OnInit {
           this.tokenStorage.setAuthToken(token);
           this.router.navigate(['home']);
         } else {
-          this.modalPrompt.open('Authentication Error', 'Invalid combination of username and password', (result) => {});
+          this.modalPrompt.open('Authentication Error', 'Unable to get authentication data from server', (result) => {});
         }
+      }, (err) => {
+        this.modalPrompt.open('Authentication Error', 'Invalid combination of username and password', (result) => {});
       }
     );
     /*
