@@ -14,14 +14,14 @@ import { NgbModalOptions, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-boot
       <p>{{message}}</p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary btn-outline-dark" (click)="activeModal.close('ok')">OK</button>
+      <button type="button" class="btn btn-primary" (click)="activeModal.close('ok')">OK</button>
       <button type="button" class="btn btn-default btn-outline-dark" (click)="activeModal.close('cancel')">Cancel</button>
     </div>
   `
 })
 export class ModalDialogContent {
-  @Input() message;
-  @Input() title;
+  @Input() message: string;
+  @Input() title: string;
 
   constructor(public activeModal: NgbActiveModal) {}
 }

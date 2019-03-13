@@ -26,4 +26,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }); 
   }
 
+  openDialog2(closeFunction) {
+    this.modalPrompt.open('Dialog 2', 'One more dialog', (result) => {
+      console.log(result);
+    }); 
+  }
+
 }
