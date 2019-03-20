@@ -1,8 +1,8 @@
 curl -si -X POST -H "Content-Type: application/json" -H "accept: application/json" -d '{"name": "admin", "password": "pass123", "email": "admin@localhost", "userName": "admin"}' http://localhost:9090/boot-commander/user/signup
 
-curl -si -X POST -H "Content-Type: application/json" -H "accept: application/json" -d '{"password": "pass123",  "username": "admin"}' http://localhost:9090/boot-commander/login
+curl -si -X POST -H "Content-Type: application/json" -H "accept: application/json" -d '{"password": "pass123",  "userName": "admin"}' http://localhost:9090/boot-commander/login
 
-curl -si -H "accept: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0MjA0ODE3M30.WUZWf6wu-3EaHHLb9e4MbV58V3ToXEcxOcuYY48JzVhvqQX9bITGmeeD2MMZh3cvIGh8mwsVMPBNWhgRWg36vA" 'http://localhost:9090/boot-commander/categories/1'
+curl -si -H "accept: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU1MzE5OTgyNX0.IFMOimhvdfgk8oJ3c5BNa3LFIh1fmm50QXAMDpmBVK_YkO8V1yssGXiVcNTDFpuKvQAk9-JYVt2XdeT02NPTWw" 'http://localhost:9090/boot-commander/categories/1'
 
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0MjAzNzQ0MX0.c5zFuxuqxjuuDMQeaQCIBIH-5VlvExB2dOwE_opGt_83Hh0X_GJeXenP_wJEiE4or71m2_zXmeGUMM8BWdtasg
 
