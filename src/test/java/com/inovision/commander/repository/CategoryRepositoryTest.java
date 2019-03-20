@@ -27,7 +27,7 @@ public class CategoryRepositoryTest extends TestCase {
 		assertNotNull(itr); 
 		assertTrue(itr.iterator().hasNext());
 		
-		itr.forEach(cat -> { System.out.println(cat); list.add(cat); });
+		itr.forEach(cat -> { list.add(cat); });
 		
 		assertEquals(3, list.size());		
 	}

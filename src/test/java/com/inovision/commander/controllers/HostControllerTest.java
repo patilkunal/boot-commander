@@ -52,18 +52,18 @@ public class HostControllerTest extends BaseControllerWithAuthTest {
 			HttpEntity<Host> ent = new HttpEntity<Host>((Host)null);
 			ResponseEntity<ErrorResponse> resp = this.restTemplate.exchange("/hosts/5", HttpMethod.GET, ent, ErrorResponse.class);
 			assert(resp.getStatusCodeValue() == 404);
-			System.out.println(">>>>>>>> " + (resp.toString()));
+			//System.out.println(">>>>>>>> " + (resp.toString()));
 			//assert(resp.getStatusCode().getReasonPhrase().contains("Host not found"));
 		} catch(HttpClientErrorException rce) {
-			System.out.println("******" + rce);
+			//System.out.println("******" + rce);
 			String msg = rce.getMessage();
 			assertNotNull(msg);
-			System.out.println(">>>>> " + msg);
+			//System.out.println(">>>>> " + msg);
 		} catch(HttpServerErrorException rse) {
-			System.out.println("******" + rse);
+			//System.out.println("******" + rse);
 			String msg = rse.getMessage();
 			assertNotNull(msg);
-			System.out.println(">>>>> " + msg);
+			//System.out.println(">>>>> " + msg);
 		}				
 	}
 	

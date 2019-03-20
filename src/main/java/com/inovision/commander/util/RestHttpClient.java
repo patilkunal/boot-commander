@@ -42,7 +42,7 @@ import com.inovision.commander.model.TestCase;
 import com.inovision.commander.model.TestResult;
 
 public class RestHttpClient {
-	private Logger logger = LoggerFactory.getLogger(RestHttpClient.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RestHttpClient.class);
 
 	private int maxHttpConnections;
 	private int httpConnectionTimeout;
@@ -72,7 +72,7 @@ public class RestHttpClient {
 
 	@PostConstruct
 	private void initialize() throws Exception {
-		logger.info("Initializing RestHttpClient");
+		LOGGER.info("Initializing RestHttpClient");
 
 		SSLContextBuilder ctxBuilder = new SSLContextBuilder();
 		ctxBuilder.loadTrustMaterial(null, new TrustSelfSignedStrategy());

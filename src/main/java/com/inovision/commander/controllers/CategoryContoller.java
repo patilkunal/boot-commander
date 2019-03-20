@@ -19,7 +19,7 @@ import com.inovision.commander.service.CategoryService;
 @RequestMapping(value="/categories", produces="application/json")
 public class CategoryContoller {
 	
-	private Logger LOGGER = LoggerFactory.getLogger(CategoryContoller.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryContoller.class);
 	private CategoryService categoryService;
 	
 	@Autowired

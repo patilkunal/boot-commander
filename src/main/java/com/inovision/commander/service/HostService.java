@@ -42,8 +42,9 @@ public class HostService {
 			}
 			*/
 		} catch(NoSuchElementException nse) {
-			LOGGER.warn("Host not found with id: " + id);
-			throw new NotfoundException("Host not found with id: " + id);
+			final String msg = "Host not found with id: " + id;
+			LOGGER.warn(msg);
+			throw new NotfoundException(msg);
 		}
 	}
 	

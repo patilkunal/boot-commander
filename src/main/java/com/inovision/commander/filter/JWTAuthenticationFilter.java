@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,7 +32,7 @@ import com.inovision.commander.service.UserService;;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	private static Logger LOGGER =LoggerFactory.getLogger(JWTAuthenticationFilter.class);
+	private static final Logger LOGGER =LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private AuthenticationManager authenticationManager;
 	private UserService userService;
@@ -58,7 +59,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             User creds = MAPPER
                     .readValue(request.getInputStream(), User.class);
-            LOGGER.trace("JWT Attempting authentication: " + creds);
+            if(LOGGER.isTraceEnabled())
+            	LOGGER.trace("JWT Attempting authentication: " + creds);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getUserName(),
@@ -66,7 +68,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             new ArrayList<>())
             );
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AuthenticationServiceException(e.getMessage());
         }	
     }
 	
