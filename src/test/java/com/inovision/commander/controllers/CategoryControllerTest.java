@@ -2,17 +2,21 @@ package com.inovision.commander.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.inovision.commander.BaseControllerWithAuthTest;
 import com.inovision.commander.model.Category;
+import com.inovision.commander.model.ErrorResponse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -52,6 +56,14 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 		Category saved = resp.getBody();
 		assertNotNull(saved);
 		assertTrue(cat.getName().equals(saved.getName()));
+		
+		saved.setName("Updated Cat 4");
+		resp = this.restTemplate.exchange("/categories/" + saved.getId(), HttpMethod.PUT, new HttpEntity<Category>(saved), Category.class);
+		assertNotNull(resp);
+		assertTrue(resp.getStatusCode().is2xxSuccessful());
+		Category updated = resp.getBody();
+		assertNotNull(updated);
+		assertTrue(updated.getName().equals("Updated Cat 4"));
 
 		ResponseEntity<Category[]> resp2 = this.restTemplate.getForEntity("/categories", Category[].class);
 		assertTrue(resp2.getStatusCode().is2xxSuccessful());
@@ -59,6 +71,27 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 		assertNotNull(cats);
 		assertEquals(4, cats.length);
 		
+		
+	}
+	
+	@Test
+	public void testCategoryNotFound() {
+		ErrorResponse error = this.restTemplate.getForObject("/categories/300", ErrorResponse.class);
+		assertNotNull(error);
+		System.out.println(">>>>>" + error);
+	}
+
+	@Test
+	public void testCategoryNotFound2() {
+		ResponseEntity<ErrorResponse> resp = this.restTemplate.exchange("/categories/500", HttpMethod.GET, null, ErrorResponse.class);
+		
+		assertNotNull(resp);
+		assert(resp.getStatusCodeValue() == 404);
+		ErrorResponse error = resp.getBody();
+		assertNotNull(error);
+		assertEquals(404, error.getStatus());
+		assertTrue(error.getMessage().contains("Category not found"));
+		//System.out.println(">>>>>>>> " + (resp.toString()));
 		
 	}
 	

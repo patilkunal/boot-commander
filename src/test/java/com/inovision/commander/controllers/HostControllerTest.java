@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestClientException;
 
 import com.inovision.commander.BaseControllerWithAuthTest;
 import com.inovision.commander.model.ErrorResponse;
@@ -48,23 +49,14 @@ public class HostControllerTest extends BaseControllerWithAuthTest {
 	
 	@Test
 	public void testHostNotFound() {
-		try {
-			HttpEntity<Host> ent = new HttpEntity<Host>((Host)null);
-			ResponseEntity<ErrorResponse> resp = this.restTemplate.exchange("/hosts/5", HttpMethod.GET, ent, ErrorResponse.class);
-			assert(resp.getStatusCodeValue() == 404);
-			//System.out.println(">>>>>>>> " + (resp.toString()));
-			//assert(resp.getStatusCode().getReasonPhrase().contains("Host not found"));
-		} catch(HttpClientErrorException rce) {
-			//System.out.println("******" + rce);
-			String msg = rce.getMessage();
-			assertNotNull(msg);
-			//System.out.println(">>>>> " + msg);
-		} catch(HttpServerErrorException rse) {
-			//System.out.println("******" + rse);
-			String msg = rse.getMessage();
-			assertNotNull(msg);
-			//System.out.println(">>>>> " + msg);
-		}				
+		HttpEntity<Host> ent = new HttpEntity<Host>((Host)null);
+		ResponseEntity<ErrorResponse> resp = this.restTemplate.exchange("/hosts/5", HttpMethod.GET, ent, ErrorResponse.class);
+		assert(resp.getStatusCodeValue() == 404);
+		ErrorResponse error = resp.getBody();
+		assertNotNull(error);
+		assertEquals(404, error.getStatus());
+		assertTrue(error.getMessage().contains("Host not found"));
+		System.out.println(">>>>>>>> " + (resp.toString()));
 	}
 	
 }

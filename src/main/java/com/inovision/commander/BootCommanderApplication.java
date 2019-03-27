@@ -32,7 +32,6 @@ public class BootCommanderApplication {
 			protected void postProcessContext(org.apache.catalina.Context context) {
 				ContextResource resource = new ContextResource();
 				resource.setName("jdbc/ApiTestDS");
-				resource.setLookupName("jdbc/ApiTestDS");
 				resource.setType(DataSource.class.getName());
 				resource.setProperty("driverClassName", "org.hsqldb.jdbcDriver");
 				resource.setProperty("url", String.format("jdbc:hsqldb:hsql://%s:9001/testcasedb", getDBHost()));
@@ -50,7 +49,6 @@ public class BootCommanderApplication {
 			}
 			
 		};
-		
 	}
 	
 	@Bean
@@ -60,14 +58,16 @@ public class BootCommanderApplication {
 	
 	/*
 	 * Commenting out since it causes issues while running tests
-	@Bean(destroyMethod="")
-	public DataSource jndiDataSource() throws IllegalArgumentException, NamingException {
+	 */
+	/*
+	@Bean
+	public JndiObjectFactoryBean jndiDataSource() throws IllegalArgumentException, NamingException {
 		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
-		bean.setJndiName("java:comp/env/jdbc/ApiTestDS");
+		bean.setJndiName("jdbc/myDS");
 		bean.setProxyInterface(DataSource.class);
-		bean.setLookupOnStartup(false);
-		bean.afterPropertiesSet();
-		return (DataSource)bean.getObject();
-	}	
-	*/
+		bean.setLookupOnStartup(true);
+		return bean;
+	}
+	*/	
+	
 }

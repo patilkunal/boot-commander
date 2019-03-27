@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Table(name="USERS")
 @NamedQueries(
 	{
-		@NamedQuery(name="User.UpdateTokenAccess",query="Update User u set u.tokenAccessDate = ? where u.name = ?"),
-		@NamedQuery(name="User.UpdateToken",query="Update User u set u.token = ? where u.name = ?")
+		@NamedQuery(name="User.UpdateTokenAccess",query="Update User u set u.tokenAccessDate = ?1 where u.name = ?2"),
+		@NamedQuery(name="User.UpdateToken",query="Update User u set u.token = ?1 where u.name = ?2")
 	}
 )
 public class User {
