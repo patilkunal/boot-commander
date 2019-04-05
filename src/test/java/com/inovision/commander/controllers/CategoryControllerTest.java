@@ -2,7 +2,6 @@ package com.inovision.commander.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -22,9 +21,6 @@ import com.inovision.commander.model.ErrorResponse;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class CategoryControllerTest extends BaseControllerWithAuthTest {
 
-//	@Autowired
-//	private TestRestTemplate restTemplate;
-	
 	@Test
 	public void test1GetCategories() {
 		ResponseEntity<Category[]> resp = this.restTemplate.getForEntity("/categories", Category[].class);
@@ -32,7 +28,6 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 		Category[] cats = resp.getBody();
 		assertNotNull(cats);
 		assertEquals(3, cats.length);
-		System.out.println(">>>>>>>>>>>>>>>>>>>>>>" +cats[0]);
 		Category cat1 = cats[0];
 		assertNotNull(cat1);
 		assertTrue(cat1.getName().equals("Category 1"));
@@ -78,7 +73,6 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 	public void testCategoryNotFound() {
 		ErrorResponse error = this.restTemplate.getForObject("/categories/300", ErrorResponse.class);
 		assertNotNull(error);
-		System.out.println(">>>>>" + error);
 	}
 
 	@Test
@@ -91,7 +85,6 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 		assertNotNull(error);
 		assertEquals(404, error.getStatus());
 		assertTrue(error.getMessage().contains("Category not found"));
-		//System.out.println(">>>>>>>> " + (resp.toString()));
 		
 	}
 	

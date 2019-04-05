@@ -29,7 +29,7 @@ public class HostControllerTest extends BaseControllerWithAuthTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-	//@Test
+	@Test
 	public void xtestGetHosts() {
 		ResponseEntity<Host[]> resp = this.restTemplate.getForEntity("/hosts", Host[].class);
 		assertTrue(resp.getStatusCode().is2xxSuccessful());
