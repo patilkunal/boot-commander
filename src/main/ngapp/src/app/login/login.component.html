@@ -1,5 +1,6 @@
 <div class="container">
   <div class="row">&nbsp;</div>
+  <div *ngIf="authFailed" class="invalid-feedback">Invalid username and password</div>
   <div class="row d-flex justify-content-center h-100">
     <div class="col-sm-4">
       <div class="card">
@@ -7,18 +8,28 @@
           <h3>Login</h3>
         </div>
         <div class="card-body">
-          <form>
+          <form [formGroup]="loginForm">
             <div class="input-group form-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
-                <input type="text" [(ngModel)]="username" name="username" class="form-control" placeholder="username">
+                <input type="text" formControlName="userName" name="userName" 
+                class="form-control" placeholder="username"
+                [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
+                <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
+                  <div *ngIf="f.userName.errors.required">Username is required</div>
+              </div>
             </div>
             <div class="input-group form-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-key"></i></span>
                 </div>
-                <input type="password" [(ngModel)]="password" name="password" class="form-control" placeholder="password"><br/>
+                <input type="password" formControlName="password" name="password" 
+                class="form-control" placeholder="password"
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+              </div>
             </div>
             <button type="submit" class="btn btn-primary float-right" (click)="login()">Submit</button>
           </form>
