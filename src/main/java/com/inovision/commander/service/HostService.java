@@ -1,7 +1,6 @@
 package com.inovision.commander.service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

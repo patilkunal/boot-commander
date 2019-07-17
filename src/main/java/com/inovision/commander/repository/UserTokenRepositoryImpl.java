@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.inovision.commander.model.User;
 
+//Note - no need to annotate this class as @Component or @Repository 
 public class UserTokenRepositoryImpl implements UserTokenRepository {
 
 	@Autowired

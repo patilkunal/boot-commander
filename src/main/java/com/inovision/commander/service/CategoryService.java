@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,7 @@ import com.inovision.commander.model.Category;
 import com.inovision.commander.repository.CategoryRepository;
 
 @Component
-@Transactional(readOnly=true, propagation=Propagation.SUPPORTS)
+@Transactional(isolation=Isolation.DEFAULT, readOnly=true, propagation=Propagation.SUPPORTS)
 public class CategoryService {
 
 	private static final String CATEGORY_NOT_FOUND_WITH_ID = "Category not found with id: ";
@@ -40,7 +41,7 @@ public class CategoryService {
 		}
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public void deleteCategory(@PathVariable("id") Integer id) throws NotfoundException, OperationNotAllowed {
 		Optional<Category> optional = categoryRespository.findById(id);
 		if(optional.isPresent()) {
@@ -51,12 +52,12 @@ public class CategoryService {
 		}
 	}
 	
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public Category saveCategory(@RequestBody Category cat) {
 		return categoryRespository.save(cat);	
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public Category updateCategory(Category cat) throws NotfoundException {
 		if(categoryRespository.existsById(cat.getId())) {
 			return categoryRespository.save(cat);
@@ -65,6 +66,7 @@ public class CategoryService {
 		}
 	}
 
+	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public void deleteCategoryByName(String name) throws NotfoundException, OperationNotAllowed {
 		Optional<Category> optional = categoryRespository.findByName(name);
 		if(optional.isPresent()) {

@@ -49,12 +49,12 @@ public class TestCaseDefinitionService {
 		return testCaseDefinitionRepository.findByCategoryId(cat.getId());
 	}
 	
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	public TestCaseDefinition saveTestCaseDefinition(TestCaseDefinition def) {
 		return testCaseDefinitionRepository.save(def);
 	}
 
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	public TestCaseDefinition updateTestCaseDefinition(TestCaseDefinition def) throws NotfoundException {
 		Optional<TestCaseDefinition> optional = testCaseDefinitionRepository.findById(def.getId());
 		if (optional.isPresent()) {
@@ -64,7 +64,7 @@ public class TestCaseDefinitionService {
 		}
 	}
 	
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,propagation=Propagation.REQUIRED)
 	public void deleteTestCaseDefinition(int id) throws NotfoundException, OperationNotAllowed {
 		LOGGER.debug(DELETING_TEST_CASE_DEFINITION_BY_ID, id);
 		Optional<TestCaseDefinition> optional = testCaseDefinitionRepository.findById(id);
