@@ -1,0 +1,25 @@
+version: '3'
+services:
+  hsqldb:
+    restart: always
+    build: ./db/hsqldb
+    image: hsqldb-server
+    ports:
+    - "9001:9001"
+    volumes:
+      - testcasedb-data:/data
+  
+  boot-commander:
+    restart: always
+    image: boot-commander
+    depends_on:
+    - hsqldb
+    build: .
+    ports:
+    - "9090:9090"
+    environment:
+      - DB_HOSTNAME=hsqldb
+
+volumes:
+  testcasedb-data:
+    external: true

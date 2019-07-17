@@ -9,5 +9,5 @@ VOLUME ["/data"]
 
 EXPOSE 9001
 
-CMD ./dbserver.sh /data
+CMD ["/opt/hsqldb/dbserver.sh", "/data"]
 
