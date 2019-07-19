@@ -16,6 +16,7 @@ import { TokenInterceptor } from './auth/token-interceptor';
 import { TokenStorage } from './shared/TokenStorage';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/auth.guard';
+import { HttpErrorInterceptor } from './common/http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,10 @@ import { AuthGuard } from './auth/auth.guard';
     {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
+    multi: true
+  },     {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpErrorInterceptor,
     multi: true
   }],
   bootstrap: [AppComponent]
