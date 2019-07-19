@@ -11,7 +11,8 @@ Feel free to fork/clone the application to learn.
 All the code is Copyright of Inovision Software LLC.    
 
 
-## To run the application
+
+## Run Spring-Boot application manually
 
 Start HSQL Database in terminal window
 
@@ -26,16 +27,7 @@ Start the backend application in second terminal window (add -DskipTests to skip
 mvn spring-boot:run
 ```
 
-Front-end angular application - yet to be developed
-
-## Run integration tests using SOAP UI
-
-1. Download and install SOAP UI
-2. Open ./soapui/BootCommander-soapui-project.xml
-3. 
-
-
-## To use docker to run
+## Run Spring-Boot using Docker
 
 Build the docker images for HSQL Database and Spring boot application (make sure to include the '.' (dot) to specify the context of the build)
 
@@ -62,7 +54,7 @@ Run the Test Commander application
 docker run -d --rm -p 8080:8080 --name boot-commander boot-commander
 ```
 
-## Running application using docker-compose
+## Running Spring-Boot using docker-compose
 
 1. Build the application using maven package. 
 2. Create the external volume to hold the DB data
@@ -74,5 +66,25 @@ docker volume create testcasedb-data
 docker-compose up
 ```
 
+## Run the Angular UI application
+
+1. Make sure Spring-Boot application is running using either of method above
+2. Download and install latest Node JS
+3. Change to src/main/ngapp directory and run following commands
+
+```
+npm install
+npm run start
+```
+4. Login to application using default username and password (admin/pass123)
+5. Click Categories and Host menu to see in action (Other menus are yet to be implemented)
+6. Click logout 
+
+
+
+## Run integration tests using SOAP UI
+
+1. Download and install SOAP UI
+2. Open ./soapui/BootCommander-soapui-project.xml
 
 

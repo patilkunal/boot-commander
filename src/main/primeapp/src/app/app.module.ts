@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { AccordionModule } from 'primeng/components/accordion/accordion';
 import { PanelModule } from 'primeng/components/panel/panel';
 import { ButtonModule } from 'primeng/components/button/button';
-import { RadioButtonModule } from 'primeng/components/radioButton/radioButton';
+import { RadioButtonModule } from 'primeng/components/radiobutton/radiobutton';
 import {MenubarModule} from 'primeng/menubar';
 
 import { AppComponent } from './app.component';
