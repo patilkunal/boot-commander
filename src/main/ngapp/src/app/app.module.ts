@@ -17,11 +17,14 @@ import { TokenStorage } from './shared/TokenStorage';
 import { AuthModule } from './auth/auth.module';
 import { AuthGuard } from './auth/auth.guard';
 import { HttpErrorInterceptor } from './common/http-error.interceptor';
+import { AlertService } from './common/alert/alert.service';
+import { AlertComponent } from './common/alert/alert.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ import { HttpErrorInterceptor } from './common/http-error.interceptor';
     AuthModule
   ],
   providers: [
-    AuthGuard, TokenStorage,
+    AuthGuard, TokenStorage, AlertService,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,

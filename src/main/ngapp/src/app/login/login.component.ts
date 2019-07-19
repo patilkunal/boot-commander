@@ -5,6 +5,7 @@ import { TokenStorage } from '../shared/TokenStorage';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ModalDialogComponent } from '../shared/dialog/modal-dialog.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from '../common/alert/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService, 
     private tokenStorage: TokenStorage,
     private actRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private alertService: AlertService
     ) { }
 
   ngOnInit() {
@@ -61,13 +63,16 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['home']);
           } else {
             console.log('Login comp: auth failed');
+            this.alertService.error('Invalid username and password combination');
             this.authFailed = true;
             // this.modalPrompt.open('Authentication Error', 'Unable to get authentication data from server', (result) => {});
           }
         }, (err) => {
           console.log('Login comp: auth error: ' + JSON.stringify(err));
           this.authFailed = true;
-          // this.modalPrompt.open('Authentication Error', 'Invalid combination of username and password', (result) => {});
+          if (err instanceof HttpErrorResponse && err.status === 403) {
+            this.alertService.error('Invalid username and password combination');
+          }
         }
       );
     }
