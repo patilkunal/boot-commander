@@ -1,0 +1,70 @@
+===============
+INSTALLATION
+================
+Download docker binaries 
+Unzip and copy them to /usr/bin folder
+
+create docker group "sudo groupadd docker"
+add current user to the group "sudo usermod -aG docker $USER"
+
+start docker daemon "sudo dockerd &"
+verify docker setup "docker run hello-world"
+
+=======================
+CONTAINERS
+=======================
+docker ps - show all running containers
+docker ps -a (docker container ls -a ) - shows running and stopped containers
+docker image ls - show downloaded images
+docker info - show information about this docker host
+docker version - show other view of information of host
+docker --version - show docker version number
+
+id -nG - show groups current user belongs to
+
+docker run container-name
+docker run -p 4000:80 container-name - forwards container port 80 to the outside world
+docker run -d -p 4000:80 container-name - same as above but run in detached mode
+docker container ls - list all the running containers
+docker container stop container-id - stops container with given contatiner-id
+
+Docker registry - hub.docker.com - pocketguru/ad
+
+docker login - login to docker repo
+
+docker tag image username/repository:tag - tag is optional but recommended to host the version number
+
+docker image ls - to see newly tagged image
+
+docker push username/repository:tag - to upload the image to docker repo.
+
+docker run username/repository:tag - pulls the image from repo, is it does not exist and run the container
+
+
+===== RUN JBOSS WIDLFLY
+docker run -d -p 8080:8080 jboss/wildfly - RUN jboss container and forward container port 8080 to the host 8080
+docker ps  - to see VM running
+docker cp starter-web.war 16a4fd735143:/opt/jboss/wildfly/standalone/deployments/  - copy war file to jboss (notice trailing / at the end of deployments)
+docker exec -it 16a4fd735143 bash - connect to container and open an interactive bash terminal 
+Now you are inside container - exit out to return back to host system
+
+docker container logs <CONTAINER ID> prints out last log statements
+
+
+
+=============== RUN REDHAT JAVA Contaner
+docker login 
+docker pull registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift
+
+
+oc login https://platform.eps-nonprd.corp.cox.com:8443 --token=onfPd_SvrCnclL5qPWrV9qAjYgEQHbB2wQNYFP6rT0M
+
+docker login -u kunpatil -p onfPd_SvrCnclL5qPWrV9qAjYgEQHbB2wQNYFP6rT0M docker-registry-default.eps-nonprd.corp.cox.com
+
+docker tag 91aeb6da6d93 docker-registry-default.eps-nonprd.corp.cox.com/eps-shared-network-testing/cvm-activemq
+docker push docker-registry-default.eps-nonprd.corp.cox.com/eps-shared-network-testing/cvm-activemq
+
+
+docker volume create hsqldb-data
+docker volume inspect hsqldb-data
+
