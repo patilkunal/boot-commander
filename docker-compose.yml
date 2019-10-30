@@ -5,7 +5,7 @@ services:
     build: ./db/hsqldb
     image: hsqldb-server
     ports:
-    - "9001:9001"
+      - "9001:9001"
     volumes:
       - testcasedb-data:/data
   
@@ -13,10 +13,10 @@ services:
     restart: always
     image: boot-commander
     depends_on:
-    - hsqldb
+      - hsqldb
     build: .
     ports:
-    - "9090:9090"
+      - "9090:9090"
     environment:
       - DB_HOSTNAME=hsqldb
 

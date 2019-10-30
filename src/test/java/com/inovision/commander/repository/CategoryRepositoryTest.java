@@ -31,7 +31,8 @@ public class CategoryRepositoryTest extends TestCase {
 		
 		assertEquals(3, list.size());		
 	}
-	
+
+	@Test
 	public void testFindOne() {
 		Category cat = categoryRepository.findById(1).get();
 		assertNotNull(cat);

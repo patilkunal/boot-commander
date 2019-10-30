@@ -12,6 +12,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.StringUtils;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -45,7 +46,7 @@ public class BootCommanderApplication {
 			}
 			
 			private String getDBHost() {
-				return (System.getenv("DB_HOSTNAME") == null) ? "localhost" : System.getenv("DB_HOSTNAME");  
+				return StringUtils.isEmpty(System.getenv("DB_HOSTNAME")) ? "localhost" : System.getenv("DB_HOSTNAME");  
 			}
 			
 		};
