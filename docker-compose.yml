@@ -14,7 +14,9 @@ services:
     image: boot-commander
     depends_on:
       - hsqldb
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile-hub
     ports:
       - "9090:9090"
     environment:
