@@ -1,29 +1,29 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<a class="navbar-brand" href="/">Test Commander</a>
-	
+
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
-		data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+		data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
 		aria-expanded="false" aria-label="Toggle navigation"
 		(click)="isNavbarCollapsed = !isNavbarCollapsed">
     	<span class="navbar-toggler-icon"></span>
   	</button>
-	
+
 	<div *ngIf="isLoggedIn()" [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item" routerLinkActive="active">
-				<a class="nav-link" routerLink="home">Home</a>
+				<a class="nav-link" routerLink="home" (click)="isNavbarCollapsed = !isNavbarCollapsed">Home</a>
 			</li>
 			<li class="nav-item" routerLinkActive="active">
-				<a class="nav-link" routerLink="runtests">Run Tests</a>
+				<a class="nav-link" routerLink="runtests" (click)="isNavbarCollapsed = !isNavbarCollapsed">Run Tests</a>
 			</li>
 			<li class="nav-item" routerLinkActive="active">
-				<a class="nav-link" routerLink="definetests">Define Tests</a>
+				<a class="nav-link" routerLink="definetests" (click)="isNavbarCollapsed = !isNavbarCollapsed">Define Tests</a>
 			</li>
 			<li class="nav-item" routerLinkActive="active">
-				<a class="nav-link" routerLink="categories">Categories</a>
+				<a class="nav-link" routerLink="categories" (click)="isNavbarCollapsed = !isNavbarCollapsed">Categories</a>
 			</li>
 			<li class="nav-item" routerLinkActive="active">
-				<a class="nav-link" routerLink="hosts">Hosts</a>
+				<a class="nav-link" routerLink="hosts" (click)="isNavbarCollapsed = !isNavbarCollapsed">Hosts</a>
 			</li>
 			<li class="nav-item" routerLinkActive="active">
 					<a class="nav-link" routerLink="login" [queryParams]="{logout: 'true'}">Logout</a>
