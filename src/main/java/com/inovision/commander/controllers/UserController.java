@@ -1,5 +1,7 @@
 package com.inovision.commander.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,11 @@ public class UserController {
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public @ResponseBody List<User> getUsers() {
+		return userService.getUsers();
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, path="/{id}")

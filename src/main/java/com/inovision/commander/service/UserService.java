@@ -1,5 +1,6 @@
 package com.inovision.commander.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.inovision.commander.exception.NotfoundException;
 import com.inovision.commander.model.User;
+import com.inovision.commander.repository.UserDAO;
 import com.inovision.commander.repository.UserRepository;
 
 @Component
@@ -18,10 +20,16 @@ public class UserService {
 	private static final String USER_NOT_FOUND_WITH_ID = "User not found with id: ";
 	private static final String USER_NOT_FOUND_WITH_NAME = "User not found with name: ";
 	private UserRepository userRepository;
+	private UserDAO userDAO;
 	
 	@Autowired
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+	
+	@Autowired
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 	
 	public User getUser(int id) throws NotfoundException {
@@ -57,5 +65,8 @@ public class UserService {
 		userRepository.updateTokenAccess(user);
 	}
 	
+	public List<User> getUsers() {
+		return userDAO.getUsersUsingMap();
+	}
 
 }
