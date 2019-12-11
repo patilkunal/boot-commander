@@ -88,3 +88,14 @@ npm run start
 2. Open ./soapui/BootCommander-soapui-project.xml
 
 
+## Swagger documentation 
+
+Access Swagger UI at following URL
+
+
+<http://localhost:9090/boot-commander/swagger-ui.html>
+
+
+Access Swagger docs in JSON format at 
+
+<http://localhost:9090/boot-commander/v2/api-docs>
