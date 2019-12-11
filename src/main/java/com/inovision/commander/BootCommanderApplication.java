@@ -14,8 +14,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableSwagger2
 public class BootCommanderApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BootCommanderApplication.class);
@@ -71,4 +78,14 @@ public class BootCommanderApplication {
 	}
 	*/	
 	
+	@Bean
+	public Docket swaggerConfig() {
+		
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				//.paths(PathSelectors.ant("/boot-commander/*"))
+				.apis(RequestHandlerSelectors.basePackage("com.inovision.commander"))
+				.build();
+		
+	}
 }
