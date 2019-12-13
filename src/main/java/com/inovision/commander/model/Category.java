@@ -13,18 +13,25 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "Category Model")
 @Entity
 @Table(name="TEST_CATEGORY")
 public class Category {
 
+	@ApiModelProperty(value = "The unique id value of category")
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private int id;
 	
+	@ApiModelProperty(value = "Category name")
 	@Column(name="NAME")
 	private String name;
 	
+	@ApiModelProperty(value = "Category description")
 	@Column(name="DESCRIPTION")
 	private String description;
 	

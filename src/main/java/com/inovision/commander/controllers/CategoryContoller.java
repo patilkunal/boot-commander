@@ -15,6 +15,9 @@ import com.inovision.commander.exception.OperationNotAllowed;
 import com.inovision.commander.model.Category;
 import com.inovision.commander.service.CategoryService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 @Controller
 @RequestMapping(value="/categories", produces="application/json")
 public class CategoryContoller {
@@ -27,13 +30,15 @@ public class CategoryContoller {
 		this.categoryService = categoryRespository;
 	}
 
+	@ApiOperation(value = "List all available categories of tests", response = Iterable.class)
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Iterable<Category> getAllCategories() {
 		return categoryService.getAllCategories();
 	}
 	
+	@ApiOperation(value = "Get categories by ID", response = Category.class)
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
-	public @ResponseBody Category getCategory(@PathVariable("id") Integer id) throws NotfoundException {
+	public @ResponseBody Category getCategory(@ApiParam(value = "ID value of category", example = "1") @PathVariable("id") Integer id) throws NotfoundException {
 		return categoryService.getCategory(id);
 	}
 
