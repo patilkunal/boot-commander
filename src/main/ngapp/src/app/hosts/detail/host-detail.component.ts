@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class HostDetailComponent implements OnInit {
   
-  private host: Host;
+  host: Host;
    
   constructor(
     private activatedRoute: ActivatedRoute,

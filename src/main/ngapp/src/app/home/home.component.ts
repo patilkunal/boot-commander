@@ -20,13 +20,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   
-  openDialog(closeFunction) {
+  openDialog() {
     this.modalPrompt.open('Sample Title', 'Hello how are you', (result) => {
       console.log(result);
     }); 
   }
 
-  openDialog2(closeFunction) {
+  openDialog2() {
     this.modalPrompt.open('Dialog 2', 'One more dialog', (result) => {
       console.log(result);
     }); 

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./hosts-list.component.css']
 })
 export class HostsListComponent implements OnInit, OnDestroy {
-  private hosts: Host[];
+  hosts: Host[];
   private sub: Subscription;
 
   constructor(
