@@ -1,15 +1,9 @@
 package com.inovision.commander.model;
 
 import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="USERS")
@@ -41,6 +35,9 @@ public class User {
 
 	@Column(name="TOKEN_ACCESS_TS")
 	private Date tokenAccessDate;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private Set<UserRole> roles;
 	
 	public int getId() {
 		return id;
@@ -90,6 +87,8 @@ public class User {
 	public void setTokenCreateDate(Date tokenCreateDate) {
 		this.tokenCreateDate = tokenCreateDate;
 	}
+	public Set<UserRole> getRoles() { return this.roles; }
+	public void setRoles(Set<UserRole> roles) { this.roles = roles; }
 	
 	@Override
 	public String toString() {

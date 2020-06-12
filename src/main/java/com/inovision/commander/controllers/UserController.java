@@ -31,7 +31,8 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody List<User> getUsers() {
-		return userService.getUsers();
+		//return userService.getUsers();
+		return userService.getUsers2();
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, path="/{id}")
