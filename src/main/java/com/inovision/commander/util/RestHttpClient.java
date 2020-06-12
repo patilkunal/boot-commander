@@ -217,12 +217,14 @@ public class RestHttpClient {
 	private String getResponse(HttpEntity entity) throws IllegalStateException, IOException {
 		StringBuilder buf = new StringBuilder();
 		InputStream is = entity.getContent();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		String str = null;
-		while ((str = reader.readLine()) != null) {
-			buf.append(str);
+		// try with resources
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is)) ) {
+			String str = null;
+			while ((str = reader.readLine()) != null) {
+				buf.append(str);
 		}
 		return buf.toString();
+		}
 	}
 
 	private String makeUrl(TestCase testCase, Host host) {

@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,10 +15,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.apache.commons.lang3.StringUtils;
 
 @Entity
 @Table(name = "audit_history")
@@ -120,9 +118,9 @@ public class AuditHistory {
         Map<String, ChangePair> map = new HashMap<>();
         if(StringUtils.isNotEmpty(changeJson)) {
             try {
-                Map<String, Map> fieldMap = OBJECT_MAPPER.readValue(changeJson, Map.class);
+                Map<String, Map<String, String>> fieldMap = OBJECT_MAPPER.readValue(changeJson, Map.class);
                 fieldMap.forEach((k, v) -> {
-                    Map<String, String> cpMap = (Map) v;
+                    Map<String, String> cpMap = (Map<String, String>) v;
                     ChangePair cp = new ChangePair();
                     cp.setNewValue(cpMap.get("newValue"));
                     cp.setOldValue(cpMap.get("oldValue"));

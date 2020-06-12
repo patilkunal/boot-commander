@@ -47,7 +47,10 @@ public class AuditHistoryServiceImpl implements AuditHistoryService {
     @Override
     @Transactional(readOnly = false)
     public void saveHistory(AuditHistoryType type, Object prevState, Object newState, List<String> fieldName, String changeByUserId, String orgId) {
-        //TODO: We can check object types and "id" are same to ensure it is same object being updated
+        // cannot audit if objects are not of same types,
+        if(!areSameTypes(prevState, newState)) 
+            return;
+
         AuditHistory history = new AuditHistory();
         history.setHistoryType(type);
         history.setEntity(type.getAuditEntity());
@@ -84,6 +87,23 @@ public class AuditHistoryServiceImpl implements AuditHistoryService {
     @Override
     public List<AuditHistory> getHistory(String objectId, AuditHistoryType type) {
         return auditHistoryRepository.findByHistoryTypeAndEntityId(type, objectId);
+    }
+
+    private boolean areSameTypes(Object obj1, Object obj2) {
+        boolean same = obj1 != null 
+            && obj2 != null 
+            && obj1.getClass().equals(obj2.getClass());
+
+        if(same) {
+            try {
+                String id1 = BeanUtils.getProperty(obj1, "id");
+                String id2 = BeanUtils.getProperty(obj1, "id");
+                same = id1.equals(id2);
+            } catch(Exception e) {
+                //cannot compare objects based on id property
+            }
+        }
+        return same;
     }
 
 }
