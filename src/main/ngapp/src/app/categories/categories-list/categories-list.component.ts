@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class CategoriesListComponent implements OnInit, OnDestroy {
 
-  private categories: Category[];
+  categories: Category[];
   private categoriesSub: Subscription;
 
   constructor(

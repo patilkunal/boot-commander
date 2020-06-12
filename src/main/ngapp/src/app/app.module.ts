@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routing.module';
 import { CategoriesModule } from './categories/categories.module';
 import { NavComponent } from './nav/nav.component';
 import { HomeModule } from './home/home.module';
@@ -29,7 +28,7 @@ import { AlertComponent } from './common/alert/alert.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
+    NgbModule,
     SharedModule,
     HomeModule,
     LoginModule,
@@ -37,8 +36,7 @@ import { AlertComponent } from './common/alert/alert.component';
     HostsModule,
     AuthModule
   ],
-  providers: [
-    AuthGuard, TokenStorage, AlertService,
+  providers: [AuthGuard, TokenStorage, AlertService,
     {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
