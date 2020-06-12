@@ -23,9 +23,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.inovision"})
 @EnableAutoConfiguration
-@EnableSwagger2
+//@EnableSwagger2
 public class BootCommanderApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BootCommanderApplication.class);
@@ -80,7 +80,7 @@ public class BootCommanderApplication {
 		return bean;
 	}
 	*/	
-	
+	/*
 	@Bean
 	public Docket swaggerConfig() {
 		
@@ -98,4 +98,6 @@ public class BootCommanderApplication {
 				new springfox.documentation.service.Contact("Kunal Patil", "http://www.inovisionsoftware.com", "contact@inovisionsoftware.com"), 
 				"Apache License", "https://www.apache.org/licenses/LICENSE-2.0.html", Collections.emptyList());
 	}
+
+	 */
 }
