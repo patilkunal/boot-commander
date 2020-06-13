@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/user/signup").permitAll()
-        .antMatchers("/","/index.html", "/home",
+        .antMatchers("/","/index.html", "/home", "/**/*.css","/**/*.js","/**/*.ico",
         		"/v2/api-docs", 
         		"/swagger-ui.html", 
         		"/webjars/**", 

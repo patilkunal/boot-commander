@@ -9,7 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class AuthService {
 
-  authURL = environment.baseAPI_URL + 'login';
+  authURL = environment.baseAPI_URL + '/login';
 
   constructor(private http: HttpClient) { }
 

@@ -80,6 +80,22 @@ npm run start
 5. Click Categories and Host menu to see in action (Other menus are yet to be implemented)
 6. Click logout 
 
+UI is updated to use latest Angular 9. NodeJS version 11 and greater is required to run UI
+
+## Building for PROD deployment
+```
+npm install -g @angular/cli
+ng build --prod --base-href=.
+
+``` 
+
+## Build a complete deployable
+```
+mvn clean package -DskipTests
+java -jar target/boot-commander-0.0.1-SNAPSHOT.jar
+```
+Make sure Database is running and browse to http://localhost:8080/boot-commander to launch Angular UI.
+The UI will connect to local spring boot app for REST API
 
 
 ## Run integration tests using SOAP UI
