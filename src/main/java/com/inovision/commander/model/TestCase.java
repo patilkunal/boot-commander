@@ -8,10 +8,10 @@ public class TestCase {
 	private int testCategoryId;
 	private String name;
 	private String description;
-	private String restUrl;	
+	private String restUrl;
 	private HttpMethod method = HttpMethod.GET;
 	private String data;
-	
+
 	private int instances;
 	
 	public int getId() {

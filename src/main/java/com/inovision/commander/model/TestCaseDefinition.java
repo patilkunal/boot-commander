@@ -2,19 +2,7 @@ package com.inovision.commander.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,13 +11,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class TestCaseDefinition {
 
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "testcase_id_seq")
+	@SequenceGenerator(name = "testcase_id_seq", sequenceName = "testcase_id_seq", allocationSize = 1)
 	private int id;
 
 	@Column(name = "name")
 	private String name;
 
+	@Column(name = "description")
 	private String description;
 
 	@ManyToOne(cascade = CascadeType.REFRESH)

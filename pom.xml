@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<karate.version>0.9.4</karate.version>
 	</properties>
 
 	<dependencies>
@@ -48,9 +49,16 @@
 			<artifactId>tomcat-dbcp</artifactId>
 			<version>${tomcat.version}</version>
 		</dependency>
+<!--
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+-->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -138,10 +146,39 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.12</version>
 		</dependency>
+		<dependency>
+			<groupId>com.intuit.karate</groupId>
+			<artifactId>karate-apache</artifactId>
+			<version>${karate.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.intuit.karate</groupId>
+			<artifactId>karate-junit4</artifactId>
+			<version>${karate.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>5.7.0</version>
+			<scope>test</scope>
+		</dependency>
+		-->
 
 	</dependencies>
 
 	<build>
+		<!-- This change is for Karate/Cucumber tests to run -->
+		<testResources>
+			<testResource>
+				<directory>src/test/java</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -167,6 +204,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- This change is to compile Angular project and bundle in spring boot app -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>

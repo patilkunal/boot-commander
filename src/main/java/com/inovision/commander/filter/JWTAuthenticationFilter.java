@@ -57,6 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             User creds = MAPPER
                     .readValue(request.getInputStream(), User.class);
+            //TODO: Verify user and pass exists in DB
             if(LOGGER.isTraceEnabled())
             	LOGGER.trace("JWT Attempting authentication: " + creds);
             return authenticationManager.authenticate(

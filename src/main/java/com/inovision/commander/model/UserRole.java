@@ -2,6 +2,7 @@ package com.inovision.commander.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 
@@ -11,7 +12,8 @@ import javax.persistence.*;
 public class UserRole {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -19,7 +21,7 @@ public class UserRole {
     @JsonIgnore
     private User user;
 
-    @Column(name = "ROLE")
+    @Column(name = "role_name")
     private String role;
 
 }
