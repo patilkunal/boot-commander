@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,8 +20,7 @@ import java.util.regex.Pattern;
 
 @SpringBootApplication(scanBasePackages = {"com.inovision"})
 @EnableAutoConfiguration
-//@EnableConfigurationProperties(DatabaseProperties.class)
-//@EnableSwagger2
+@EnableConfigurationProperties(DatabaseProperties.class)
 public class BootCommanderApplication {
 
 	//.*:\/\/(.*?(?=[:@]))[:@]?(.*?(?=[@]))?@?(.*?):?(\d+)?\/(.*)
@@ -37,6 +37,9 @@ public class BootCommanderApplication {
 	private static final Pattern JDBC_URL_PATTERN = Pattern.compile(".*?:\\/\\/(?:(\\w+):)?(?:(\\w+):)?(\\w+):(?:\\w+)?\\/(\\w+)");
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BootCommanderApplication.class);
+
+	@Autowired
+	private DatabaseProperties databaseProperties;
 	
 	public static void main(String[] args) {
 		LOGGER.info("Starting the Boot Commander application");
@@ -53,9 +56,6 @@ public class BootCommanderApplication {
 				resource.setName("jdbc/ApiTestDS");
 				resource.setType(DataSource.class.getName());
 				setDBProps(resource);
-//				String jdbcUrl = getDBURL();
-//				resource.setProperty("driverClassName", getDriverClassName(jdbcUrl));
-//				resource.setProperty("url", jdbcUrl);
 				context.getNamingResources().addResource(resource);
 			}
 			
@@ -70,6 +70,7 @@ public class BootCommanderApplication {
 			}
 
 			private void setDBProps(ContextResource resource) {
+				System.out.println("database URL **** " + databaseProperties.databaseUrl);
 				String jdbcUrl = System.getenv(ENV_JDBC_DATABASE_URL);
 				if(jdbcUrl == null) {
 					String dburl = System.getenv(ENV_DATABASE_URL);
@@ -102,8 +103,6 @@ public class BootCommanderApplication {
 				}
 				resource.setProperty("driverClassName", getDriverClassName(jdbcUrl));
 				resource.setProperty("url", jdbcUrl);
-//				resource.setProperty("username", user);
-//				resource.setProperty("password", password);
 			}
 
 			private String getDriverClassName(String jdbcUrl) {
@@ -131,24 +130,4 @@ public class BootCommanderApplication {
 		return bean;
 	}
 	*/	
-	/*
-	@Bean
-	public Docket swaggerConfig() {
-		
-		return new Docket(DocumentationType.SWAGGER_2)
-				.apiInfo(getApiInfo())
-				.select()
-				//.paths(PathSelectors.ant("/boot-commander/*"))
-				.apis(RequestHandlerSelectors.basePackage("com.inovision.commander"))
-				.build();
-		
-	}
-	
-	private ApiInfo getApiInfo() {
-		return new ApiInfo("Boot Commander API", "REST API for Boot Commander Application", "1.0", "Free to use", 
-				new springfox.documentation.service.Contact("Kunal Patil", "http://www.inovisionsoftware.com", "contact@inovisionsoftware.com"), 
-				"Apache License", "https://www.apache.org/licenses/LICENSE-2.0.html", Collections.emptyList());
-	}
-
-	 */
 }
