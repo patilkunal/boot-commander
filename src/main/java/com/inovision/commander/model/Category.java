@@ -8,10 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @ApiModel(description = "Category Model")
 @Entity
-@Table(name="TEST_CATEGORY")
+@Table(name="test_category")
+@Data
+@EqualsAndHashCode(of = {"id"})
 public class Category {
 
 	@ApiModelProperty(value = "The unique id value of category")
@@ -21,11 +25,11 @@ public class Category {
 	private int id;
 	
 	@ApiModelProperty(value = "Category name")
-	@Column(name="NAME")
+	@Column(name="name")
 	private String name;
 	
 	@ApiModelProperty(value = "Category description")
-	@Column(name="DESCRIPTION")
+	@Column(name="description")
 	private String description;
 	
 	@Transient
@@ -50,69 +54,10 @@ public class Category {
 		this.host = host;
 		this.testCases = testdefs;
 	}
-	
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public List<Host> getHost() {
-		return host;
-	}
-	
-	public void setHost(List<Host> host) {
-		this.host = host;
-	}
-	
-	public List<TestCaseDefinition> getTestCases() {
-		return testCases;
-	}
-	
-	public void setTestCases(List<TestCaseDefinition> testCases) {
-		this.testCases = testCases;
-	}
-	
-	public int getTestCount() {
-		return this.testCases != null ? this.testCases.size() :  0;
-	}
-	
-	public void setTestCount(int testCount) {
-		this.testCount = testCount;
-	}
 
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + ", description=" + description + "]";
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		return (obj != null) && (obj instanceof Category) && (this.id == ((Category)obj).id );
-	}
-	
-	@Override
-	public int hashCode() {
-		return 37 * id;
-	}
-	
 }

@@ -1,9 +1,16 @@
 package com.inovision.commander.model;
 
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 
+@ApiModel(description = "Describes HTTP host/server object")
 @Entity
-@Table(name="HOSTS")
+@Table(name="hosts")
+@Data
+@EqualsAndHashCode(of = {"id"})
 public class Host {
 
 	@Id
@@ -11,58 +18,21 @@ public class Host {
 	@SequenceGenerator(name = "host_id_seq", sequenceName = "host_id_seq", allocationSize = 1)
 	private int id = -1;
 	
-	@Column(name="NAME")
+	@Column(name="name")
 	private String name;
 	
-	@Column(name="HOSTNAME")
+	@Column(name="hostname")
 	private String hostName;
 	
-	@Column(name="PORT")
+	@Column(name="port")
 	private int port;
 	
-	@Column(name="SECUREHTTP")
+	@Column(name="securehttp")
 	private boolean secureHttp;
 
 	@ManyToOne // Since there is no mapped by, Host does not own this relationship
-	@JoinColumn(name="TEST_CATEGORY_ID")
+	@JoinColumn(name="test_category_id")
 	private Category category;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getHostName() {
-		return hostName;
-	}
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
-	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
-	public boolean isSecureHttp() {
-		return secureHttp;
-	}
-	public void setSecureHttp(boolean secureHttp) {
-		this.secureHttp = secureHttp;
-	}
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
 	
 	@Override
 	public String toString() {

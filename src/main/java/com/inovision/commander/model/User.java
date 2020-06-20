@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name="USERS")
+@Table(name="users")
 @NamedQueries(
 	{
 		@NamedQuery(name="User.UpdateTokenAccess",query="Update User u set u.tokenAccessDate = ?1 where u.name = ?2"),
@@ -19,7 +19,7 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(name="USERNAME", unique=true, nullable=false)
+	@Column(name="username", unique=true, nullable=false)
 	private String userName;
 	
 	@Column(nullable=false)
@@ -27,13 +27,13 @@ public class User {
 	private String name;
 	private String email;
 	
-	@Column(name="TOKEN")
+	@Column(name="token")
 	private String token;
 	
-	@Column(name="TOKEN_CREATE_TS")
+	@Column(name="token_create_ts")
 	private Date tokenCreateDate;
 
-	@Column(name="TOKEN_ACCESS_TS")
+	@Column(name="token_access_ts")
 	private Date tokenAccessDate;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "TESTCASE")
+@Table(name = "testcase")
 public class TestCaseDefinition {
 
 	@Id
@@ -22,33 +22,34 @@ public class TestCaseDefinition {
 	private String description;
 
 	@ManyToOne(cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "TEST_CATEGORY_ID")
+	@JoinColumn(name = "test_category_id")
 	private Category category;
 
-	@Column(name = "REST_URL")
+	@Column(name = "rest_url")
 	private String restUrl;
 
-	@Column(name = "HTTP_METHOD")
+	@Column(name = "http_method")
 	@Enumerated(EnumType.STRING)
 	private HttpMethod httpMethod;
 
-	@Column(name = "HTTP_DATA")
+	@Column(name = "http_data")
 	private String httpData;
 
-	@Column(name = "CONTENT_TYPE")
+	@Column(name = "content_type")
 	@Convert(converter = ContentTypeConverter.class)
+	@Enumerated(EnumType.STRING)
 	private ContentType contentType;
 
-	@Column(name = "VALIDATE_OUTPUT")
+	@Column(name = "validate_output")
 	private boolean validateOutput;
 
-	@Column(name = "OUTPUT_TEMPLATE")
+	@Column(name = "output_template")
 	private String outputTemplate;
 
-	@Column(name = "ALLOW_BLANK_OUTPUT")
+	@Column(name = "allow_blank_output")
 	private boolean allowBlankOutput;
 
-	@Column(name = "VALIDATE_TYPE")
+	@Column(name = "validate_type")
 	@Enumerated(EnumType.STRING)
 	private ValidateType validateType;
 

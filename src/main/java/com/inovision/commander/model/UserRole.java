@@ -2,13 +2,15 @@ package com.inovision.commander.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USER_ROLES")
+@Table(name = "user_roles")
 @Data
+@EqualsAndHashCode(of = "id")
 public class UserRole {
 
     @Id
