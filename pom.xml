@@ -229,7 +229,7 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<workingDirectory>${project.basedir}/src/main/ngapp</workingDirectory>
-							<executable>ng</executable>
+							<executable>node_modules/@angular/cli/bin/ng</executable>
 							<arguments>
 								<argument>build</argument>
 								<argument>--prod</argument>
