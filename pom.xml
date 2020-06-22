@@ -199,7 +199,49 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.10.0</version>
+				<configuration>
+					<workingDirectory>src/main/ngapp</workingDirectory>
+					<installDirectory>target</installDirectory>
+					<nodeVersion>v12.16.1</nodeVersion>
+					<npmVersion>6.14.5</npmVersion>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>prepare-package</phase>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>exec-npm-ng-build</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/main/ngapp</workingDirectory>
+							<arguments>run buildprod</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- This change is to compile Angular project and bundle in spring boot app -->
+			<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -227,8 +269,8 @@
 							<executable>node_modules/@angular/cli/bin/ng</executable>
 							<arguments>
 								<argument>build</argument>
-								<argument>--prod</argument>
-								<argument>--base-href=.</argument>
+								<argument>- -prod</argument>
+								<argument>- -base-href=.</argument>
 							</arguments>
 						</configuration>
 						<goals>
@@ -237,6 +279,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			// -->
 		</plugins>
 	</build>
 
