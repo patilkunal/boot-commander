@@ -91,6 +91,7 @@
 	        <groupId>com.openpojo</groupId>
 	        <artifactId>openpojo</artifactId>
 	        <version>0.8.10</version>
+			<scope>test</scope>
 	    </dependency>
 		<dependency>
 		    <groupId>io.springfox</groupId>
@@ -166,6 +167,7 @@
 
 	<build>
 		<!-- This change is for Karate/Cucumber tests to run -->
+		<!-- Disabled for now. Tests fail to run from command line, test resource don't get copied to target dir
 		<testResources>
 			<testResource>
 				<directory>src/test/java</directory>
@@ -174,6 +176,7 @@
 				</excludes>
 			</testResource>
 		</testResources>
+		-->
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -282,6 +285,4 @@
 			// -->
 		</plugins>
 	</build>
-
-
 </project>

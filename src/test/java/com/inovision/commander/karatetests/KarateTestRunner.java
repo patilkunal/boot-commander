@@ -6,6 +6,7 @@ import com.intuit.karate.Runner;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.test.annotation.IfProfileValue;
 
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 @KarateOptions(tags = {"~@ignore"})
 @IfProfileValue(name = "karate.tests", value="true")
+@Ignore
 public class KarateTestRunner {
     @Test
     public void testParallel() {
