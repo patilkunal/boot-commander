@@ -1,4 +1,4 @@
-FROM java:8
+FROM openjdk:11-jre-buster
 MAINTAINER Kunal Patil <kunalpatil@yahoo.com>
 
 VOLUME /tmp
