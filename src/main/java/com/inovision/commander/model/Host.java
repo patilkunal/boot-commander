@@ -15,7 +15,7 @@ public class Host {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "host_id_seq")
-	@SequenceGenerator(name = "host_id_seq", sequenceName = "host_id_seq", allocationSize = 1)
+	@SequenceGenerator(name = "host_id_seq", sequenceName = "hosts_id_seq", allocationSize = 1)
 	private int id = -1;
 	
 	@Column(name="name")
@@ -27,7 +27,8 @@ public class Host {
 	@Column(name="port")
 	private int port;
 	
-	@Column(name="securehttp")
+	@Column(name="securehttp", columnDefinition = "TINYINT")
+	@org.hibernate.annotations.Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean secureHttp;
 
 	@ManyToOne // Since there is no mapped by, Host does not own this relationship
@@ -40,17 +41,7 @@ public class Host {
 				+ secureHttp + ", category=" + category + "]";
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		return (obj != null) && (obj instanceof Host) && (this.id == ((Host)obj).id);
-	}
-	
-	@Override
-	public int hashCode() {
-		return 37 * id;
-	}
-
-	public String toUrlFormat() {		
+	public String toUrlFormat() {
 		return String.format("%s://%s:%d", secureHttp ? "https" : "http", hostName, port);
 	}	
 }

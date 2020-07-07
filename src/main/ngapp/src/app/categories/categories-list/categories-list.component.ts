@@ -12,6 +12,9 @@ import { Subscription } from 'rxjs';
 export class CategoriesListComponent implements OnInit, OnDestroy {
 
   categories: Category[];
+  //Use these for paging when we implement it on backend API
+  currentPage: number;
+  pageSize: number;
   private categoriesSub: Subscription;
 
   constructor(
@@ -28,6 +31,11 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.categoriesSub.unsubscribe();
+  }
+
+  // we will get it from the $event binding from the pagination component
+  updatePage(pageNumber) {
+    this.currentPage = pageNumber;
   }
 
   deleteCategory(cat: Category) {

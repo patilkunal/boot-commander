@@ -3,18 +3,19 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'public',
+    path: '',
     loadChildren: () => import('./public/public.module').then( m => m.PublicPageModule)
   },
   {
     path: 'secured',
     loadChildren: () => import('./secured/secured.module').then( m => m.SecuredPageModule)
-  },
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'public'
   }
+  // ,
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   redirectTo: 'public'
+  // }
 ];
 @NgModule({
   imports: [

@@ -9,7 +9,7 @@ import { IonSlides } from '@ionic/angular';
 export class SlidesComponent implements OnInit {
 
   slideOpts = {
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400
   };
 
