@@ -5,19 +5,29 @@
 </ion-header>
 <ion-content>
   <h1>Sign In</h1>
-  <form>
+  <form [formGroup]="loginForm" (ngSubmit)="loginAction()">
     <ion-list>
       <ion-item>
         <ion-label position="stacked">Username</ion-label>
-        <ion-input (ngModel)="userData.username" type="text"></ion-input>
+        <ion-input formControlName="username" type="text"></ion-input>
       </ion-item>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.username.errors?.required">
+        Username is required.
+      </span>
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
-        <ion-input (ngModel)="userData.password" type="password"></ion-input>
+        <ion-input formControlName="password" type="password"></ion-input>
       </ion-item>      
-      <ion-button expand="block" shape='round' color='primary' (click)="loginAction()">Sign in</ion-button>      
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required">
+        Password is required.
+      </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.minlength">
+        Password must be at least 6 chars.
+      </span>
+      <ion-button type="submit" expand="block" shape='round' color='primary'>Sign in</ion-button>
       <ion-item>
-        <a routerLink='/signup'>Create Account</a>
+        Don't have account?
+        <ion-button color='primary' (click)="navigateTo('/signup')">Create Account</ion-button>
       </ion-item>
     </ion-list>
   </form>

@@ -22,9 +22,9 @@
             <ion-label position="stacked">Password</ion-label>
             <ion-input type="password"></ion-input>
           </ion-item>
-          <ion-button expand="block" shape='round' color='primary' (click)="signupAction()">Sign in</ion-button>      
+          <ion-button expand="block" shape='round' color='primary' (click)="createAccount()">Create Account</ion-button>
           <ion-item>
-            <a routerLink='/login'>Sign In</a>
+          Already have an account? <ion-button color='primary' (click)="navigateTo('/login')">Sign in</ion-button>
           </ion-item>
     
         </ion-list>
