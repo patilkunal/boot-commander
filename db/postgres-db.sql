@@ -137,15 +137,15 @@ BEGIN
     CREATE INDEX SYS_IDX_10197 ON SCHEDULED_TESTCASES (SCHEDULE_ID);
     CREATE INDEX SYS_IDX_10199 ON SCHEDULED_TESTCASES (TESTCASE_INSTANCE_ID);
 
-    INSERT INTO USERS VALUES(1,'admin','$2a$10$sMlE1RPjHYiaLf1T1gtvVu2Y6AtNhX6Ue21Y5PjxYKdCUt29qJSX2','admin','admin@localhost','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0ODYxOTg1OH0.p7ogqPWzoMRRkX8-m4DJR1ZQ8LTWSXRXIf-2sklCWLDLplakpU94inD0bbT_Cz4w7LjjVJPeVn0cGOi9HFuFZw',NULL,NULL)
-    insert into user_roles values(1,1,'SUPERADMIN');
+    INSERT INTO USERS VALUES(nextval('users_id_seq'),'admin','$2a$10$sMlE1RPjHYiaLf1T1gtvVu2Y6AtNhX6Ue21Y5PjxYKdCUt29qJSX2','admin','admin@localhost','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0ODYxOTg1OH0.p7ogqPWzoMRRkX8-m4DJR1ZQ8LTWSXRXIf-2sklCWLDLplakpU94inD0bbT_Cz4w7LjjVJPeVn0cGOi9HFuFZw',NULL,NULL);
+    insert into user_roles values(nextval('user_roles_id_seq'),1,'SUPERADMIN');
 
-    insert into test_category(name, description) values('COMMANDER', 'Commander Test Cases');
+    insert into test_category(id, name, description) values(nextval('test_category_id_seq'), 'COMMANDER', 'Commander Test Cases');
 
-    insert into hosts(hostname, port, test_category_id ) values('localhost', 9090, 1);
+    insert into hosts(id, name, hostname, port, test_category_id ) values(nextval('hosts_id_seq'), 'Boot Commander (Local)', 'localhost', 9090, 1);
 
-    insert into testcase(name, description, test_category_id, rest_url, http_method, http_data)
-    values('Get Categories', 'Get a list of all categories', 1, '/boot-commander/categories', 'GET', '');
+    insert into testcase(id, name, description, test_category_id, rest_url, http_method, http_data)
+    values(nextval('testcase_id_seq'), 'Get Categories', 'Get a list of all categories', 1, '/boot-commander/categories', 'GET', '');
     insert into testcase_instance(name, description, testcase_id, user_id)
     values('Get Categories', 'Get a list of all categoriest', 1,1 );
 
