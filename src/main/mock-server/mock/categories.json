@@ -1,0 +1,17 @@
+[
+    {
+        "id":1,
+        "name" : "Boot Commander",
+        "description": "Category for boot commander",
+        "testCount": 0,
+        "testCases": null
+    },
+
+    {
+        "id":2,
+        "name" : "Cat2",
+        "description": "Category 2",
+        "testCount": 0,
+        "testCases": null
+    }
+]
