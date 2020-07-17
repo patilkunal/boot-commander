@@ -5,6 +5,8 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { AuthConstants } from 'src/app/constants/auth-constants';
 import { User } from 'src/app/models/user';
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 
 @Component({
@@ -55,12 +57,7 @@ export class LoginPage implements OnInit {
           this.loginError = "Error authenticating username";
         }
       }, (error: any) => {
-        if(error.status === 403) {
-          this.loginError = "Invalid username and password";
-        } else {
-          this.loginError = "Server Error during authentication: " + JSON.stringify(error);
-        }
-        console.log(JSON.stringify(error));
+        this.handleError(error);
       });
     }
   }
@@ -68,4 +65,24 @@ export class LoginPage implements OnInit {
   navigateTo(page) {
     this.router.navigate([page]);
   }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      this.loginError = error.error.message;
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+        if(error.status === 0) {
+          this.loginError = "Unable to connect to server to authenticate. Please try later.";
+        } else {
+          this.loginError = `Server error [code: ${error.status}, message: ${error.statusText}]`;
+        }
+    }
+  }
+
 }

@@ -12,8 +12,10 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
   private handleError(error: HttpErrorResponse) {
+    let message = '';
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
+      message = error.error.message;
       console.error('An error occurred:', error.error.message);
     } else {
       // The backend returned an unsuccessful response code.
@@ -21,10 +23,11 @@ export class HttpService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
+      message = `Server error [code: ${error.status}, message: ${error.statusText}]`;
     }
     // Return an observable with a user-facing error message.
     return throwError(
-      'Something bad happened; please try again later.');
+      'Error occured in HTTP request: ' + message);
   }
 
   postWithResponse(serviceName: string, data: any, optionsParam?: any): Observable<HttpResponse<any>> {

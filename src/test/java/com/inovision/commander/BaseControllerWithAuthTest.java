@@ -39,7 +39,7 @@ public abstract class BaseControllerWithAuthTest {
 		if(jwtToken != null) return jwtToken;
 		Map<String, String> map = new HashMap<String, String>();
 		//set data-h2.sql for these values
-		map.put("userName", "kunal");
+		map.put("username", "kunal");
 		map.put("password", "pass123");
 		
 		ResponseEntity<String> resp= this.restTemplate.postForEntity("/login", map, String.class);
