@@ -1,7 +1,7 @@
 {
     "id": 1,
-    "userName" : "testuser",
+    "username" : "testuser",
     "name": "Test User",
     "email": "test@example.com",
-    "roles": "USER"
+    "roles": ["ADMIN","USER"]
 }

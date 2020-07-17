@@ -2,11 +2,13 @@ package com.inovision.commander.filter;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.inovision.commander.dto.UserDTO;
 import com.inovision.commander.model.User;
 import com.inovision.commander.model.UserRole;
 import com.inovision.commander.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,7 +64,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             	LOGGER.trace("JWT Attempting authentication: " + creds);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getUserName(),
+                            creds.getUsername(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
@@ -83,9 +85,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withSubject(userName)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.withClaim(USER_ROLE, roleNames)
-				.withIssuer("http://bootcommander.google")
+				.withIssuer("http://bootcommander.herokuapps.com")
                 .sign(HMAC512(SECRET.getBytes()));
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
-        userService.updateUserToken(userName, token);
+		response.addHeader("x-token", token);
+		response.addHeader("Access-Control-Expose-Headers", "*");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getOutputStream().write(MAPPER.writeValueAsBytes(UserDTO.create(user)));
+
+        //userService.updateUserToken(userName, token);
 	}
 }

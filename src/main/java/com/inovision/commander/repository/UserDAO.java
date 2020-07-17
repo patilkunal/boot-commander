@@ -73,7 +73,7 @@ public class UserDAO {
 		public User transformTuple(Object[] arr, String[] aliases) {
 			User user = new User();
 			user.setId((int)arr[0]);
-			user.setUserName((String)arr[1]);
+			user.setUsername((String)arr[1]);
 			user.setName((String)arr[2]);
 			user.setEmail((String)arr[3]);
 			return user;

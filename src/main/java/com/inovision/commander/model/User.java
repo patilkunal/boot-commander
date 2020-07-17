@@ -1,9 +1,8 @@
 package com.inovision.commander.model;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name="users")
@@ -20,7 +19,7 @@ public class User {
 	private int id;
 	
 	@Column(name="username", unique=true, nullable=false)
-	private String userName;
+	private String username;
 	
 	@Column(nullable=false)
 	private String password;
@@ -45,11 +44,11 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -92,7 +91,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", name=" + name + ", email=" + email + "]";
+		return "User [userName=" + username + ", name=" + name + ", email=" + email + "]";
 	}
 	
 }

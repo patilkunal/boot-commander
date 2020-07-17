@@ -1,6 +1,10 @@
 package com.inovision.commander;
 
+import com.inovision.commander.filter.JWTAuthenticationFilter;
+import com.inovision.commander.filter.JWTAuthorizationFilter;
+import com.inovision.commander.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,10 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.inovision.commander.filter.JWTAuthenticationFilter;
-import com.inovision.commander.filter.JWTAuthorizationFilter;
-import com.inovision.commander.service.UserService;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 /*
  * Use this when enabling Spring Security
@@ -54,9 +55,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
  
+
     /*
     @Bean
-    CorsConfigurationSource corsConfigurationSource()
+	CorsConfigurationSource corsConfigurationSource()
     {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
@@ -65,5 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    */
+     */
+
 }

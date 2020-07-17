@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication(scanBasePackages = {"com.inovision"})
 @EnableAutoConfiguration
@@ -63,5 +66,22 @@ public class BootCommanderApplication {
 		bean.setLookupOnStartup(true);
 		return bean;
 	}
-	*/	
+	*/
+
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+						.allowCredentials(true)
+						.allowedHeaders("Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
+								"Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, x-token")
+						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+						.allowedOrigins("*");
+			}
+		};
+	}
+
 }
