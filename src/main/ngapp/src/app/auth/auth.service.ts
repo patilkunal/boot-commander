@@ -14,7 +14,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   attemptAuth(p_username: string, p_password: string): Observable<HttpResponse<any>> {
-    const creds = {userName: p_username, password: p_password};
+    const creds = {username: p_username, password: p_password};
     console.log('Attempting Authentication');
     // observe returns the complete RAW response
     return this.http.post<HttpResponse<string>>(this.authURL, creds, {observe: 'response'});

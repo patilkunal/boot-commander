@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { CategoryDetailComponent } from './category-detail/category-detail.component';
-import { CategoryResolve } from './category-resolve';
+import { CategoryResolve, CategoriesResolve } from './category-resolve';
 import { AuthGuard } from '../auth/auth.guard';
 
 const routes: Routes = [
@@ -16,7 +16,10 @@ const routes: Routes = [
             },
             {
               path: 'list',
-              component: CategoriesListComponent
+              component: CategoriesListComponent,
+              resolve: {
+                categories: CategoriesResolve
+              }
             },
             {
                 path: ':id',

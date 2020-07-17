@@ -12,11 +12,11 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                 </div>
-                <input type="text" formControlName="userName" name="userName"
+                <input type="text" formControlName="username" name="username"
                 class="form-control" placeholder="username"
-                [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
-                <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
-                  <div *ngIf="f.userName.errors.required">Username is required</div>
+                [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <div *ngIf="f.username.errors.required">Username is required</div>
               </div>
             </div>
             <div class="input-group form-group">

@@ -3,6 +3,7 @@ import { Category } from '../../shared/models/category';
 import { CategoriesService } from '../categories.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-categories-list',
@@ -11,26 +12,22 @@ import { Subscription } from 'rxjs';
 })
 export class CategoriesListComponent implements OnInit, OnDestroy {
 
-  categories: Category[];
+  public categories: Category[];
   //Use these for paging when we implement it on backend API
   currentPage: number;
   pageSize: number;
-  private categoriesSub: Subscription;
 
   constructor(
+    private actRoute: ActivatedRoute,
     private service: CategoriesService,
     private errorHandler: ErrorHandlerService) { }
 
   ngOnInit() {
-    this.categoriesSub = this.service.getCategories()
-              .subscribe((data) => { this.categories = data; console.log(this.categories); },
-              (err) => this.errorHandler.handleHttpError(err),
-              () => console.log('Categories get complete')
-            );
+    this.categories = this.actRoute.snapshot.data['categories'];
   }
 
   ngOnDestroy() {
-    this.categoriesSub.unsubscribe();
+    
   }
 
   // we will get it from the $event binding from the pagination component
