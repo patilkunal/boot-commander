@@ -24,10 +24,8 @@ export class AuthenticationService {
     return this.httpService.post('/signup', postData);
   }
 
-  logout() {
-    this.storageService.clear().then(resp => {
-        this.router.navigate(['']);
-    });
+  logout(): Promise<void> {
+    return this.storageService.clear();
   }
 
 }

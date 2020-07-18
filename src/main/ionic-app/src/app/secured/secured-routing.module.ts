@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SecuredPage } from './secured.page';
+import { SecuredGuard } from '../guards/secured.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: SecuredPage,
-    children: [ 
+    canActivate: [SecuredGuard],
+    children: [     
       {
         path: 'hosts',
         loadChildren: () => import('./hosts/hosts.module').then( m => m.HostsPageModule)
@@ -19,14 +21,14 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: '/secured/overview'
+        redirectTo: 'overview'
       }
     ]
   }, 
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/secured/overview'
+    redirectTo: 'overview'
   }
 ];
 

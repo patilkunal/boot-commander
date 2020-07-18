@@ -47,15 +47,20 @@ export class LoginPage implements OnInit {
     } else {
       console.log('Going to login using: ' + JSON.stringify(this.loginForm.value));
       this.authService.login(this.loginForm.value).subscribe((resp) => {
-        if (resp.status === 200) {
+        const token = resp.headers.get(AuthConstants.TOKEN_HEADER_NAME);
+        console.log("Token: " + token);
+        if (resp.status === 200 && token != null) {
           this.storageService.store(AuthConstants.USER_DATA, resp);
-          this.storageService.store(AuthConstants.TOKEN, resp.headers.get(AuthConstants.TOKEN_HEADER_NAME));
+          this.storageService.store(AuthConstants.TOKEN, token);
           this.router.navigate(['secured']);
         } else if(resp.status === 403) {
             this.loginError = "Invalid username and password";
         } else {
-          this.loginError = "Error authenticating username";
-        }
+          this.loginError = "Error authenticating user";
+          if(token == null) {
+            this.loginError = "Unable to get auth token";
+          }
+        }        
       }, (error: any) => {
         this.handleError(error);
       });

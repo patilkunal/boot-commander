@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-secured',
@@ -8,13 +9,15 @@ import { Router } from '@angular/router';
 })
 export class SecuredPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
   }
 
   logoutAction() {
-    this.router.navigate(['/login']);
+    this.authService.logout().then(resp => {
+      this.router.navigate(['']);
+    });
   }
 
 }
