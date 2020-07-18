@@ -7,6 +7,7 @@ import { AuthConstants } from 'src/app/constants/auth-constants';
 import { User } from 'src/app/models/user';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class LoginPage implements OnInit {
   constructor(private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
-    private storageService: StorageService) { }
+    private storageService: StorageService,
+    private toastController: ToastController) { }
 
   ngOnInit() {
     this.loginError = null;
@@ -53,12 +55,9 @@ export class LoginPage implements OnInit {
           this.storageService.store(AuthConstants.USER_DATA, resp);
           this.storageService.store(AuthConstants.TOKEN, token);
           this.router.navigate(['secured']);
-        } else if(resp.status === 403) {
-            this.loginError = "Invalid username and password";
         } else {
-          this.loginError = "Error authenticating user";
           if(token == null) {
-            this.loginError = "Unable to get auth token";
+            this.showMessage("Unable to get auth token");
           }
         }        
       }, (error: any) => {
@@ -83,11 +82,28 @@ export class LoginPage implements OnInit {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
         if(error.status === 0) {
-          this.loginError = "Unable to connect to server to authenticate. Please try later.";
+          this.showMessage("Unable to connect to server to authenticate. Please try later.");
+        } else if(error.status === 403) {
+          this.showMessage("Invalid username and password");
         } else {
-          this.loginError = `Server error [code: ${error.status}, message: ${error.statusText}]`;
+          this.showMessage(`Backend error [code: ${error.status}, message: ${error.statusText}]`);
         }
     }
+  }
+
+  async showMessage(msg: string) {
+    const toast = await this.toastController.create({
+      header: 'Login error',
+      message: msg,
+      position: 'top',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel'
+        }
+      ]
+    });
+    toast.present();
   }
 
 }

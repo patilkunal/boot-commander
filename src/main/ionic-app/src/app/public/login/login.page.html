@@ -4,33 +4,52 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <h1>Sign In</h1>
   <div *ngIf="loginError" class="error" style="text-align: center;">{{loginError}}</div>
   <form [formGroup]="loginForm" (ngSubmit)="loginAction()">
-    <ion-list>
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label>
+          <h1>Sign In</h1>
+        </ion-label>
+      </ion-list-header>
       <ion-item>
         <ion-label position="stacked">Username</ion-label>
         <ion-input formControlName="username" type="text"></ion-input>
-      </ion-item>
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.username.errors?.required">
-        Username is required.
-      </span>
+        <ion-note color="danger" *ngIf="isSubmitted && errorControl.username.errors?.required">
+          Username is required.
+        </ion-note>
+        </ion-item>
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
         <ion-input formControlName="password" type="password"></ion-input>
-      </ion-item>      
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required">
-        Password is required.
-      </span>
-      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.minlength">
-        Password must be at least 6 chars.
-      </span>
-      <ion-button type="submit" expand="block" shape='round' color='primary'>Sign in</ion-button>
-      <ion-item>
-        Don't have account?
-        <ion-button color='primary' (click)="navigateTo('/signup')">Create Account</ion-button>
+        <ion-note color="danger" *ngIf="isSubmitted && errorControl.password.errors?.required">
+          Password is required.
+        </ion-note>
+        <ion-note color="danger" *ngIf="isSubmitted && errorControl.password.errors?.minlength">
+          Password must be at least 6 chars.
+        </ion-note>
       </ion-item>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button type="submit" size="default" shape='round' color='primary'>Sign in</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button type="button" size="default" shape='round' color='primary' [routerLink]="['/welcome']">Cancel
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-item-divider>
+        <ion-label>Don't have account?</ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-button color='secondary' size="default" [routerLink]="['/signup']">Create Account</ion-button>
+      </ion-item>
+
     </ion-list>
   </form>
-  
+
 </ion-content>
