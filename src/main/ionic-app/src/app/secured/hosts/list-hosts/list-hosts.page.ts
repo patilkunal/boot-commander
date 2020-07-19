@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Host } from '../../../models/host';
+import { HostService } from 'src/app/services/host-service';
 
 @Component({
   selector: 'app-list-hosts',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListHostsPage implements OnInit {
 
-  constructor() { }
+  hosts: Host[];
+
+  constructor(private hostService: HostService) { }
 
   ngOnInit() {
   }

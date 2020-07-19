@@ -14,7 +14,7 @@ export class SecuredPage implements OnInit {
   ngOnInit() {
   }
 
-  logoutAction() {
+  logoutAction() {        
     this.authService.logout().then(resp => {
       this.router.navigate(['']);
     });

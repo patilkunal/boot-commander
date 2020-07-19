@@ -9,7 +9,11 @@ import { catchError } from 'rxjs/operators';
 })
 export class HttpService {
 
-  constructor(private http: HttpClient) { }
+  options = { headers: null };
+
+  constructor(private http: HttpClient) {
+    this.options.headers = new HttpHeaders();
+   }
 
   private handleError(error: HttpErrorResponse) {
     let message = '';
@@ -30,25 +34,35 @@ export class HttpService {
       'Error occured in HTTP request: ' + message);
   }
 
-  postWithResponse(serviceName: string, data: any, optionsParam?: any): Observable<HttpResponse<any>> {
+  postWithResponse(uri: string, data: any, optionsParam?: any): Observable<HttpResponse<any>> {
 
     const headers = new HttpHeaders();
-    const options = {header: headers, withCredentials: false};
 
-    const url = environment.baseURL + serviceName;
+    const url = environment.baseURL + uri;
 
     return this.http.post(url, JSON.stringify(data), {withCredentials: false, observe: 'response'});
 
   }
 
-  post(serviceName: string, data: any): Observable<any> {
+  post(uri: string, data: any): Observable<any> {
+
+    const headers = new HttpHeaders();
+
+    const url = environment.baseURL + uri;
+
+    return this.http.post(url, JSON.stringify(data), this.options)
+          .pipe(catchError(this.handleError));
+
+  }
+
+  put(uri: string, data: any): Observable<any> {
 
     const headers = new HttpHeaders();
     const options = {header: headers, withCredentials: false};
 
-    const url = environment.baseURL + serviceName;
+    const url = environment.baseURL + uri;
 
-    return this.http.post(url, JSON.stringify(data), options)
+    return this.http.put(url, JSON.stringify(data), options)
           .pipe(catchError(this.handleError));
 
   }
@@ -57,6 +71,12 @@ export class HttpService {
     let url = environment.baseURL + uri;
     return this.http.get(url)
         .pipe(catchError(this.handleError));
+  }
+
+  delete(uri: string): Observable<any> {
+    let url = environment.baseURL + uri;
+    return this.http.delete(url, this.options)
+      .pipe(catchError(this.handleError));
   }
 
 }

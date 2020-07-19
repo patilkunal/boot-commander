@@ -7,10 +7,10 @@ const routes: Routes = [
     loadChildren: () => import('./public/public.module').then( m => m.PublicPageModule)
   }
   ,
-  {
-    path: 'secured',
-    loadChildren: () => import('./secured/secured.module').then( m => m.SecuredPageModule)
-  },
+  // {
+  //   path: 'secured',
+  //   loadChildren: () => import('./secured/secured.module').then( m => m.SecuredPageModule)
+  // },
   {
     path: '**',
     loadChildren: () => import('./public/not-found/not-found.module').then( m => m.NotFoundPageModule)

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { StorageService } from './storage.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthConstants } from '../constants/auth-constants';
 import { HttpResponse } from '@angular/common/http';
 
@@ -11,6 +11,8 @@ import { HttpResponse } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthenticationService {
+
+  userToken$ = new BehaviorSubject<any>('');
 
   constructor(private httpService: HttpService, 
         private storageService: StorageService, 
@@ -25,7 +27,16 @@ export class AuthenticationService {
   }
 
   logout(): Promise<void> {
-    return this.storageService.clear();
+    //clear token and all storage data
+    return this.storageService.clear().then(() => {
+        this.userToken$.next(''); //clear out from behaviour too
+    });
+  }
+
+  getAuthToken() {
+    this.storageService.get(AuthConstants.TOKEN).then(resp => {
+      this.userToken$.next(resp);
+    })
   }
 
 }

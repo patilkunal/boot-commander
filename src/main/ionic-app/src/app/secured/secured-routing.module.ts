@@ -3,12 +3,18 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SecuredPage } from './secured.page';
 import { SecuredGuard } from '../guards/secured.guard';
+import { UserTokenResolver } from '../resolver/user-token-resolver';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'secured',
     component: SecuredPage,
     canActivate: [SecuredGuard],
+    resolve: {
+      // ensures user token is read ahead of time and cached to prevent re-read
+      // access AuthenticationService -> userToken$ behaviour to access token
+      userToken: UserTokenResolver
+    },
     children: [     
       {
         path: 'hosts',
@@ -24,12 +30,13 @@ const routes: Routes = [
         redirectTo: 'overview'
       }
     ]
-  }, 
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'overview'
   }
+  // , 
+  // {
+  //   path: '',
+  //   pathMatch: 'full',
+  //   redirectTo: 'overview'
+  // }
 ];
 
 @NgModule({
