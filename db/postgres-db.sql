@@ -1,157 +1,157 @@
-CREATE OR REPLACE FUNCTION create_testcasedb_schema ()
-    RETURNS void as
+create or replace function create_testcasedb_schema ()
+    returns void as
 $func$
-BEGIN
-   IF EXISTS (SELECT FROM pg_catalog.pg_tables
-              WHERE  schemaname = 'PUBLIC'
-              AND    tablename  = 'USERS') THEN
-      RAISE NOTICE 'Table myschema.mytable already exists.';
-   ELSE
-    CREATE TABLE USERS (
-        ID SERIAL primary KEY,
-        USERNAME VARCHAR(100) NOT NULL,
-        PASSWORD VARCHAR(100),
-        NAME VARCHAR(255),
-        EMAIL VARCHAR(255),
-        TOKEN VARCHAR(255),
-        TOKEN_CREATE_TS TIMESTAMP DEFAULT NOW(),
-        TOKEN_ACCESS_TS TIMESTAMP DEFAULT NOW()
+begin
+   if exists (select from pg_catalog.pg_tables
+              where  schemaname = 'public'
+              and    tablename  = 'users') then
+      raise notice 'tables already exists.';
+   else
+    create table users (
+        id serial primary key,
+        username varchar(100) not null,
+        password varchar(100),
+        name varchar(255),
+        email varchar(255),
+        token varchar(255),
+        token_create_ts timestamp default now(),
+        token_access_ts timestamp default now()
     );
 
-    CREATE UNIQUE INDEX IDX_USERS_USERNAME ON USERS (USERNAME);
+    create unique index idx_users_username on users (username);
 
-    CREATE TABLE USER_ROLES (
-        ID SERIAL primary KEY,
-        USER_ID INTEGER REFERENCES USERS(ID),
-        "ROLE" VARCHAR(100)
+    create table user_roles (
+        id serial primary key,
+        user_id integer references users(id),
+        role_name varchar(100)
     );
 
-    CREATE TABLE TEST_CATEGORY (
-        ID SERIAL primary KEY,
-        NAME VARCHAR(20),
-        DESCRIPTION VARCHAR(255)
+    create table test_category (
+        id serial primary key,
+        name varchar(20),
+        description varchar(255)
     );
 
-    CREATE TABLE TESTCASE (
-        ID SERIAL primary KEY,
-        NAME VARCHAR(255),
-        DESCRIPTION VARCHAR(255),
-        TEST_CATEGORY_ID INTEGER NOT NULL REFERENCES TEST_CATEGORY(ID),
-        REST_URL VARCHAR(255) NOT NULL,
-        HTTP_METHOD VARCHAR(10) NOT NULL,
-        HTTP_DATA VARCHAR(4000),
-        CONTENT_TYPE VARCHAR(50) DEFAULT 'application/json' NOT NULL,
-        VALIDATE_OUTPUT INTEGER DEFAULT 0 NOT NULL,
-        OUTPUT_TEMPLATE VARCHAR(4000),
-        ALLOW_BLANK_OUTPUT INTEGER DEFAULT 0 NOT NULL,
-        VALIDATE_TYPE VARCHAR(10)
+    create table testcase (
+        id serial primary key,
+        name varchar(255),
+        description varchar(255),
+        test_category_id integer not null references test_category(id),
+        rest_url varchar(255) not null,
+        http_method varchar(10) not null,
+        http_data varchar(4000),
+        content_type varchar(50) default 'application/json' not null,
+        validate_output integer default 0 not null,
+        output_template varchar(4000),
+        allow_blank_output integer default 0 not null,
+        validate_type varchar(10)
     );
 
-    CREATE TABLE TESTCASE_INSTANCE (
-        ID SERIAL primary KEY,
-        NAME VARCHAR(255),
-        DESCRIPTION VARCHAR(255),
-        TESTCASE_ID INTEGER NOT NULL,
-        USER_ID INTEGER NOT NULL,
-        VALIDATE_OUTPUT INTEGER DEFAULT 0 NOT NULL,
-        OUTPUT_TEMPLATE VARCHAR(4000),
-        ALLOW_BLANK_OUTPUT INTEGER DEFAULT 0 NOT NULL,
-        VALIDATE_TYPE VARCHAR(10),
-        CONSTRAINT FK_TESTINSTANCE_TESTCASE FOREIGN KEY (TESTCASE_ID) REFERENCES TESTCASE(ID),
-        CONSTRAINT FK_TESTINSTANCE_USERS FOREIGN KEY (USER_ID) REFERENCES USERS(ID)
+    create table testcase_instance (
+        id serial primary key,
+        name varchar(255),
+        description varchar(255),
+        testcase_id integer not null,
+        user_id integer not null,
+        validate_output integer default 0 not null,
+        output_template varchar(4000),
+        allow_blank_output integer default 0 not null,
+        validate_type varchar(10),
+        constraint fk_testinstance_testcase foreign key (testcase_id) references testcase(id),
+        constraint fk_testinstance_users foreign key (user_id) references users(id)
     );
 
-    CREATE INDEX SYS_IDX_10147 ON TESTCASE_INSTANCE (USER_ID);
-    CREATE UNIQUE INDEX SYS_IDX_SYS_PK_10134_10139 ON TESTCASE_INSTANCE (ID);
+    create index sys_idx_10147 on testcase_instance (user_id);
+    create unique index sys_idx_sys_pk_10134_10139 on testcase_instance (id);
 
-    CREATE TABLE HOSTS (
-        ID SERIAL primary KEY,
-        NAME VARCHAR(255),
-        HOSTNAME VARCHAR(255) NOT NULL,
-        PORT INTEGER NOT NULL,
-        SECUREHTTP INTEGER DEFAULT 0 NOT NULL,
-        TEST_CATEGORY_ID INTEGER NOT NULL,
-        CONSTRAINT FK_HOSTS_TEST_CATEGORY_ID FOREIGN KEY (TEST_CATEGORY_ID) REFERENCES TEST_CATEGORY(ID)
+    create table hosts (
+        id serial primary key,
+        name varchar(255),
+        hostname varchar(255) not null,
+        port integer not null,
+        securehttp integer default 0 not null,
+        test_category_id integer not null,
+        constraint fk_hosts_test_category_id foreign key (test_category_id) references test_category(id)
     );
-    CREATE INDEX SYS_IDX_10113 ON HOSTS (TEST_CATEGORY_ID);
-    CREATE UNIQUE INDEX SYS_IDX_SYS_PK_10102_10107 ON HOSTS (ID);
+    create index sys_idx_10113 on hosts (test_category_id);
+    create unique index sys_idx_sys_pk_10102_10107 on hosts (id);
 
-    CREATE TABLE TESTCASE_RUN (
-        ID SERIAL primary KEY,
-        TESTCASE_INSTANCE_ID INTEGER NOT NULL,
-        HOST_ID INTEGER NOT NULL,
-        SUCCESS INTEGER DEFAULT 1 NOT NULL,
-        RUN_DATE TIMESTAMP DEFAULT LOCALTIMESTAMP,
-        RETURN_CODE INTEGER DEFAULT 0 NOT NULL,
-        ERROR VARCHAR(1024),
-        "RESULT" VARCHAR(4096),
-        CONTENT_TYPE VARCHAR(20),
-        CONSTRAINT FK_TESTRUN_HOST FOREIGN KEY (HOST_ID) REFERENCES HOSTS(ID),
-        CONSTRAINT FK_TESTRUN_TESTCASEINSTANCE FOREIGN KEY (TESTCASE_INSTANCE_ID) REFERENCES TESTCASE_INSTANCE(ID) ON DELETE CASCADE
+    create table testcase_run (
+        id serial primary key,
+        testcase_instance_id integer not null,
+        host_id integer not null,
+        success integer default 1 not null,
+        run_date timestamp default localtimestamp,
+        return_code integer default 0 not null,
+        error varchar(1024),
+        "result" varchar(4096),
+        content_type varchar(20),
+        constraint fk_testrun_host foreign key (host_id) references hosts(id),
+        constraint fk_testrun_testcaseinstance foreign key (testcase_instance_id) references testcase_instance(id) on delete cascade
     );
 
-    CREATE INDEX SYS_IDX_10171 ON TESTCASE_RUN (TESTCASE_INSTANCE_ID);
-    CREATE INDEX SYS_IDX_10173 ON TESTCASE_RUN (HOST_ID);
+    create index sys_idx_10171 on testcase_run (testcase_instance_id);
+    create index sys_idx_10173 on testcase_run (host_id);
 
-    CREATE TABLE TESTCASE_VALUES (
-        ID SERIAL primary KEY,
-        TESTCASE_INSTANCE_ID INTEGER NOT NULL,
-        KEY_NAME VARCHAR(255) NOT NULL,
-        KEY_VALUE VARCHAR(2048),
-        VALUE_TYPE VARCHAR(20),
-        CONSTRAINT FK_TESTCASEVALUE_TESTINSTANCE FOREIGN KEY (TESTCASE_INSTANCE_ID) REFERENCES TESTCASE_INSTANCE(ID) ON DELETE CASCADE
+    create table testcase_values (
+        id serial primary key,
+        testcase_instance_id integer not null,
+        key_name varchar(255) not null,
+        key_value varchar(2048),
+        value_type varchar(20),
+        constraint fk_testcasevalue_testinstance foreign key (testcase_instance_id) references testcase_instance(id) on delete cascade
     );
-    CREATE INDEX SYS_IDX_10157 ON TESTCASE_VALUES (TESTCASE_INSTANCE_ID);
-    CREATE UNIQUE INDEX SYS_IDX_SYS_PK_10150_10153 ON TESTCASE_VALUES (ID);
+    create index sys_idx_10157 on testcase_values (testcase_instance_id);
+    create unique index sys_idx_sys_pk_10150_10153 on testcase_values (id);
 
-    CREATE TABLE HTTP_HEADERS (
-        ID SERIAL primary KEY,
-        TEST_CATEGORY_ID INTEGER,
-        NAME VARCHAR(255),
-        "VALUE" VARCHAR(255),
-        TESTCASE_ID INTEGER,
-        CONSTRAINT FK_HTTPHEADERS_TESTCATEGORY FOREIGN KEY (TEST_CATEGORY_ID) REFERENCES TEST_CATEGORY(ID)
+    create table http_headers (
+        id serial primary key,
+        test_category_id integer,
+        name varchar(255),
+        "value" varchar(255),
+        testcase_id integer,
+        constraint fk_httpheaders_testcategory foreign key (test_category_id) references test_category(id)
     );
-    CREATE INDEX SYS_IDX_10205 ON HTTP_HEADERS (TEST_CATEGORY_ID);
+    create index sys_idx_10205 on http_headers (test_category_id);
 
-    CREATE TABLE SCHEDULES (
-        ID SERIAL primary KEY,
-        NAME VARCHAR(100),
-        CRON_EXPR VARCHAR(100),
-        HOST_ID INTEGER NOT NULL,
-        ACTIVE INTEGER DEFAULT 0 NOT NULL,
-        TEST_CATEGORY_ID INTEGER NOT NULL,
-        CONSTRAINT FK_SCHEDULE_CATEGORY FOREIGN KEY (TEST_CATEGORY_ID) REFERENCES TEST_CATEGORY(ID) ON DELETE CASCADE,
-        CONSTRAINT FK_SCHEDULE_HOST FOREIGN KEY (HOST_ID) REFERENCES HOSTS(ID)
+    create table schedules (
+        id serial primary key,
+        name varchar(100),
+        cron_expr varchar(100),
+        host_id integer not null,
+        active integer default 0 not null,
+        test_category_id integer not null,
+        constraint fk_schedule_category foreign key (test_category_id) references test_category(id) on delete cascade,
+        constraint fk_schedule_host foreign key (host_id) references hosts(id)
     );
-    CREATE INDEX SYS_IDX_10185 ON SCHEDULES (HOST_ID);
-    CREATE INDEX SYS_IDX_10187 ON SCHEDULES (TEST_CATEGORY_ID);
+    create index sys_idx_10185 on schedules (host_id);
+    create index sys_idx_10187 on schedules (test_category_id);
 
-    CREATE TABLE SCHEDULED_TESTCASES (
-        ID SERIAL primary KEY,
-        SCHEDULE_ID INTEGER NOT NULL,
-        TESTCASE_INSTANCE_ID INTEGER NOT NULL,
-        CONSTRAINT FK_SCHEDULE FOREIGN KEY (SCHEDULE_ID) REFERENCES SCHEDULES(ID) ON DELETE CASCADE,
-        CONSTRAINT FK_TESTCASE_INSTANCE FOREIGN KEY (TESTCASE_INSTANCE_ID) REFERENCES TESTCASE_INSTANCE(ID) ON DELETE CASCADE
+    create table scheduled_testcases (
+        id serial primary key,
+        schedule_id integer not null,
+        testcase_instance_id integer not null,
+        constraint fk_schedule foreign key (schedule_id) references schedules(id) on delete cascade,
+        constraint fk_testcase_instance foreign key (testcase_instance_id) references testcase_instance(id) on delete cascade
     );
-    CREATE INDEX SYS_IDX_10197 ON SCHEDULED_TESTCASES (SCHEDULE_ID);
-    CREATE INDEX SYS_IDX_10199 ON SCHEDULED_TESTCASES (TESTCASE_INSTANCE_ID);
+    create index sys_idx_10197 on scheduled_testcases (schedule_id);
+    create index sys_idx_10199 on scheduled_testcases (testcase_instance_id);
 
-    INSERT INTO USERS VALUES(nextval('users_id_seq'),'admin','$2a$10$sMlE1RPjHYiaLf1T1gtvVu2Y6AtNhX6Ue21Y5PjxYKdCUt29qJSX2','admin','admin@localhost','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0ODYxOTg1OH0.p7ogqPWzoMRRkX8-m4DJR1ZQ8LTWSXRXIf-2sklCWLDLplakpU94inD0bbT_Cz4w7LjjVJPeVn0cGOi9HFuFZw',NULL,NULL);
-    insert into user_roles values(nextval('user_roles_id_seq'),1,'SUPERADMIN');
+    insert into users values(nextval('users_id_seq'),'admin','$2a$10$smle1rpjhyialf1t1gtvvu2y6atnhx6ue21y5pjxykdcut29qjsx2','admin','admin@localhost','eyj0exaioijkv1qilcjhbgcioijiuzuxmij9.eyjzdwiioijhzg1pbiisimv4cci6mtu0odyxotg1oh0.p7ogqpwzomrrkx8-m4djr1zq8ltwsxrxif-2sklcwldlplakpu94ind0bbt_cz4w7ljjvjpevn0cgoi9hfufzw',null,null);
+    insert into user_roles values(nextval('user_roles_id_seq'),1,'superadmin');
 
-    insert into test_category(id, name, description) values(nextval('test_category_id_seq'), 'COMMANDER', 'Commander Test Cases');
+    insert into test_category(id, name, description) values(nextval('test_category_id_seq'), 'commander', 'commander test cases');
 
-    insert into hosts(id, name, hostname, port, test_category_id ) values(nextval('hosts_id_seq'), 'Boot Commander (Local)', 'localhost', 9090, 1);
+    insert into hosts(id, name, hostname, port, test_category_id ) values(nextval('hosts_id_seq'), 'boot commander (local)', 'localhost', 9090, 1);
 
     insert into testcase(id, name, description, test_category_id, rest_url, http_method, http_data)
-    values(nextval('testcase_id_seq'), 'Get Categories', 'Get a list of all categories', 1, '/boot-commander/categories', 'GET', '');
+    values(nextval('testcase_id_seq'), 'get categories', 'get a list of all categories', 1, '/boot-commander/categories', 'get', '');
     insert into testcase_instance(name, description, testcase_id, user_id)
-    values('Get Categories', 'Get a list of all categoriest', 1,1 );
+    values('get categories', 'get a list of all categoriest', 1,1 );
 
-END IF;
-END
-$func$ LANGUAGE plpgsql;
+end if;
+end
+$func$ language plpgsql;
 
 
 select create_testcasedb_schema();
