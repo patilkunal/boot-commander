@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
         console.log("Token: " + token);
         if (resp.status === 200 && token != null) {
           this.storageService.store(AuthConstants.USER_DATA, resp);
+          console.log('Saving TOKEN as ' + token);
           this.storageService.store(AuthConstants.TOKEN, token);
           this.router.navigate(['secured']);
         } else {

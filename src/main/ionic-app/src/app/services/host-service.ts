@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Host } from '../models/host';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class HostService {
 
     constructor(private httpService: HttpService) {
@@ -25,8 +27,9 @@ export class HostService {
         }
     }
 
-    deleteHost() {
+    deleteHost(id: number) {
         // TODO: implement me
+        return this.httpService.delete('/hosts' + id);
     }
     
 }

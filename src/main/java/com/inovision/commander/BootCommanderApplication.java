@@ -75,9 +75,9 @@ public class BootCommanderApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowCredentials(true)
-						.allowedHeaders("Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
-								"Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, x-token")
+//						.allowCredentials(true)
+//						.allowedHeaders("Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
+//								"Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, x-token")
 						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
 						.allowedOrigins("*");
 			}

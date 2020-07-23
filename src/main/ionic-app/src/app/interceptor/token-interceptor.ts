@@ -8,22 +8,22 @@ import { AuthenticationService } from '../services/authentication.service';
 const AUTHORIZATION_KEY = 'Authorization';
 
 @Injectable()
-export class TokenInterceptor implements HttpInterceptor, OnInit {
+export class TokenInterceptor implements HttpInterceptor {
 
     userToken: string;
 
-    constructor(private authService: AuthenticationService, private router: Router) {}
-
-    ngOnInit() {
+    constructor(private authService: AuthenticationService, private router: Router) {
+        console.log('Token intercept contructor');
         this.authService.userToken$.subscribe((resp:any) => {
+            console.log('token intercept: ' + resp);
             this.userToken = resp;
-        })
+        });
     }
 
     intercept(req: HttpRequest<any>, nextHandler: HttpHandler): Observable<HttpEvent<any>> {
         let authReq = req;
         console.log('TokenInterceptor: HTTP Call Intercepted');
-        if (this.userToken != null) {
+        if (this.userToken != '') {
             console.log('TokenInterceptor: Authentication token found');
             authReq = req.clone({
                 headers: req.headers.set(AUTHORIZATION_KEY, this.userToken).set('Accept', 'application/json')

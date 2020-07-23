@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { Category } from '../models/category';
 import { identifierModuleUrl } from '@angular/compiler';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class CategoriesService {
 
     constructor(private httpService: HttpService) {

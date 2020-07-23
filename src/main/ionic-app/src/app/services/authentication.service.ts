@@ -35,6 +35,7 @@ export class AuthenticationService {
 
   getAuthToken() {
     this.storageService.get(AuthConstants.TOKEN).then(resp => {
+      console.log('auth service getAuthToken: ' + resp);
       this.userToken$.next(resp);
     })
   }

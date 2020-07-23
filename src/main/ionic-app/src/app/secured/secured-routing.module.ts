@@ -30,6 +30,10 @@ const routes: Routes = [
         redirectTo: 'overview'
       }
     ]
+  },
+  {
+    path: 'categories',
+    loadChildren: () => import('./categories/categories.module').then( m => m.CategoriesPageModule)
   }
   // , 
   // {
