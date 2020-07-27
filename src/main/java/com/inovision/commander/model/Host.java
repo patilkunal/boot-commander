@@ -1,5 +1,6 @@
 package com.inovision.commander.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Table(name="hosts")
 @Data
 @EqualsAndHashCode(of = {"id"})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Host {
 
 	@Id

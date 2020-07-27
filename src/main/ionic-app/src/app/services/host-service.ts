@@ -19,17 +19,19 @@ export class HostService {
         return this.httpService.get('/hosts/' + id);
     }
 
-    saveHost(host: Host): Observable<Host> {
+    save(host: Host): Observable<Host> {
         if(host.id > -1) {
-            return this.httpService.put('/hosts' + host.id, host);
+            console.log('Updating host: ' + host);
+            return this.httpService.put('/hosts/' + host.id, host);
         } else {
+            console.log('Saving new host: ' + host);
             return this.httpService.post('/hosts', host);
         }
     }
 
-    deleteHost(id: number) {
+    deleteHost(id: number): Promise<any> {
         // TODO: implement me
-        return this.httpService.delete('/hosts' + id);
+        return this.httpService.delete('/hosts/' + id).toPromise();
     }
     
 }

@@ -14,7 +14,7 @@ const routes: Routes = [
     loadChildren: () => import('./list-hosts/list-hosts.module').then( m => m.ListHostsPageModule)
   },
   {
-    path: 'edit',
+    path: 'edit/:id',
     loadChildren: () => import('./edit-hosts/edit-hosts.module').then( m => m.EditHostsPageModule)
   }
 ];

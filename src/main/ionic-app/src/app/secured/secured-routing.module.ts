@@ -10,6 +10,7 @@ const routes: Routes = [
     path: 'secured',
     component: SecuredPage,
     canActivate: [SecuredGuard],
+    runGuardsAndResolvers: 'always',
     resolve: {
       // ensures user token is read ahead of time and cached to prevent re-read
       // access AuthenticationService -> userToken$ behaviour to access token

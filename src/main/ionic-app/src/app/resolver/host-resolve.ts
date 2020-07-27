@@ -35,6 +35,7 @@ export class HostResolve implements Resolve<Host> {
   constructor(private hostService: HostService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Host[]> {
+      console.log('Getting all hosts');
       return this.hostService.getHosts();
   }
 

@@ -10,6 +10,7 @@ const routes: Routes = [
     resolve: {
       hosts: HostListResolve
     },
+    runGuardsAndResolvers: 'always',
     component: ListHostsPage
   }
 ];

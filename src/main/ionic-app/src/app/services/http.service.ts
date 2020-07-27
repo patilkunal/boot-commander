@@ -3,17 +3,20 @@ import {HttpClient, HttpHeaders, HttpErrorResponse, HttpResponse} from '@angular
 import { environment } from 'src/environments/environment';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators'; 
+import { ToastController } from '@ionic/angular';
+import { ThrowStmt } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  options = { headers: null };
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
-  constructor(private http: HttpClient) {
-    this.options.headers = new HttpHeaders();
-   }
+  constructor(private http: HttpClient, private toastController: ToastController) {
+  }
 
   private handleError(error: HttpErrorResponse) {
     let message = '';
@@ -29,6 +32,7 @@ export class HttpService {
         `body was: ${error.error}`);
       message = `Server error [code: ${error.status}, message: ${error.statusText}]`;
     }
+    this.showMessage(message);
     // Return an observable with a user-facing error message.
     return throwError(
       'Error occured in HTTP request: ' + message);
@@ -46,23 +50,23 @@ export class HttpService {
 
   post(uri: string, data: any): Observable<any> {
 
-    const headers = new HttpHeaders();
+    //const headers = new HttpHeaders();
 
     const url = environment.baseURL + uri;
 
-    return this.http.post(url, JSON.stringify(data), this.options)
+    return this.http.post(url, JSON.stringify(data), this.httpOptions)
           .pipe(catchError(this.handleError));
 
   }
 
   put(uri: string, data: any): Observable<any> {
 
-    const headers = new HttpHeaders();
-    const options = {header: headers, withCredentials: false};
+    // const headers = new HttpHeaders();
+    // const options = {header: headers, withCredentials: false};
 
     const url = environment.baseURL + uri;
 
-    return this.http.put(url, JSON.stringify(data), options)
+    return this.http.put(url, JSON.stringify(data), this.httpOptions)
           .pipe(catchError(this.handleError));
 
   }
@@ -75,8 +79,23 @@ export class HttpService {
 
   delete(uri: string): Observable<any> {
     let url = environment.baseURL + uri;
-    return this.http.delete(url, this.options)
+    return this.http.delete(url, this.httpOptions)
       .pipe(catchError(this.handleError));
+  }
+
+  async showMessage(msg: string) {
+    const toast = await this.toastController.create({
+      header: 'Error',
+      message: msg,
+      position: 'top',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel'
+        }
+      ]
+    });
+    toast.present();
   }
 
 }

@@ -7,10 +7,17 @@ const routes: Routes = [
     loadChildren: () => import('./public/public.module').then( m => m.PublicPageModule)
   }
   ,
-  // {
-  //   path: 'secured',
-  //   loadChildren: () => import('./secured/secured.module').then( m => m.SecuredPageModule)
-  // },
+  {
+    path: 'public',
+    pathMatch: 'full',
+    loadChildren: () => import('./public/public.module').then( m => m.PublicPageModule)
+  }
+  ,
+  {
+    path: 'secured',
+    pathMatch: 'full',
+    loadChildren: () => import('./secured/secured.module').then( m => m.SecuredPageModule)
+  },
   {
     path: '**',
     loadChildren: () => import('./public/not-found/not-found.module').then( m => m.NotFoundPageModule)
@@ -25,7 +32,7 @@ const routes: Routes = [
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, onSameUrlNavigation: 'reload' })
   ],
   exports: [RouterModule]
 })

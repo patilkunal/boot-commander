@@ -9,6 +9,7 @@ const routes: Routes = [
     path: '',
     component: PublicPage,
     canActivate: [PublicGuard],
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: '',

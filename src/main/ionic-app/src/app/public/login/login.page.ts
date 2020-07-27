@@ -47,14 +47,15 @@ export class LoginPage implements OnInit {
       console.log('Please provide all the required values!')
       return false;
     } else {
-      console.log('Going to login using: ' + JSON.stringify(this.loginForm.value));
+      //console.log('Going to login using: ' + JSON.stringify(this.loginForm.value));
       this.authService.login(this.loginForm.value).subscribe((resp) => {
         const token = resp.headers.get(AuthConstants.TOKEN_HEADER_NAME);
-        console.log("Token: " + token);
+        //console.log("Token: " + token);
         if (resp.status === 200 && token != null) {
           this.storageService.store(AuthConstants.USER_DATA, resp);
-          console.log('Saving TOKEN as ' + token);
+          //console.log('Saving TOKEN as ' + token);
           this.storageService.store(AuthConstants.TOKEN, token);
+          this.authService.userToken$.next(token);
           this.router.navigate(['secured']);
         } else {
           if(token == null) {

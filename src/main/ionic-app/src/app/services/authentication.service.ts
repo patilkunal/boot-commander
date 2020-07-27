@@ -16,7 +16,10 @@ export class AuthenticationService {
 
   constructor(private httpService: HttpService, 
         private storageService: StorageService, 
-        private router: Router) { }
+        private router: Router) {
+          console.log("**** AuthenticationService constructor")
+          this.getAuthToken();
+  }
 
   login(postData: any): Observable<HttpResponse<any>> {
     return this.httpService.postWithResponse('/login', postData, {observe: 'response'});
@@ -35,7 +38,7 @@ export class AuthenticationService {
 
   getAuthToken() {
     this.storageService.get(AuthConstants.TOKEN).then(resp => {
-      console.log('auth service getAuthToken: ' + resp);
+      //console.log('auth service getAuthToken: ' + resp);
       this.userToken$.next(resp);
     })
   }
