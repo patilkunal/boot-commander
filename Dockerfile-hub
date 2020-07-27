@@ -1,15 +1,16 @@
-FROM maven:3-jdk-8-openj9
-VOLUME ["$HOME/.m2", "/usr/src/app"]
+FROM maven:3-jdk-11
+VOLUME ["$HOME/.m2/repository/", "/usr/src/app/.m2/repository/"]
+ENV HOME /usr/src/app
 WORKDIR /usr/src/app
 COPY . /usr/src/app
-RUN mvn package
+RUN mvn package -DskipTests
 
-FROM java:8
+FROM openjdk:11-jre-buster
 MAINTAINER Kunal Patil <kunalpatil@yahoo.com>
 
 VOLUME /tmp
 RUN mkdir /app
-COPY --from=0 /usr/src/app/target/boot-commander*.jar /app/boot-commander.jar
+COPY --from=0 /usr/src/app/target/boot-commander-0.0.1-SNAPSHOT.jar /app/boot-commander.jar
 
 EXPOSE 8080
 

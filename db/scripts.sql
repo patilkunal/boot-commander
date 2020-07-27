@@ -108,17 +108,11 @@ create table AUDIT_HISTORY(
 INSERT INTO USERS VALUES(3,'admin','$2a$10$sMlE1RPjHYiaLf1T1gtvVu2Y6AtNhX6Ue21Y5PjxYKdCUt29qJSX2','admin','admin@localhost','eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTU0ODYxOTg1OH0.p7ogqPWzoMRRkX8-m4DJR1ZQ8LTWSXRXIf-2sklCWLDLplakpU94inD0bbT_Cz4w7LjjVJPeVn0cGOi9HFuFZw',NULL,NULL)
 		
 	
-insert into test_category(name, description) values('BATCH', 'Batch Server Test Cases');
+insert into test_category(name, description) values('COMMANDER', 'Commander Test Cases');
 	
-insert into hosts(hostname, port, description) values('localhost', 8080, 'Local Machine');
-insert into hosts(hostname, port, description) values('localhost', 9090, 'DEV VM (via SSH Tunnel)');
-insert into hosts(hostname, port, description) values('10.8.172.139', 8080, 'DEV VM (Direct)');
+insert into hosts(hostname, port, description) values('localhost', 9090, 'Local Machine');
 
 insert into testcase(name, description, test_category_id, rest_url, http_method, http_data)
-values('Get BSID Import Scheduled Jobs', 'Get a list of all BSID Import scheduled job list', 0, '/batch/scheduledBatchJob/bsidImport', 'GET', '');
+values('Get Categories', 'Get a list of all categories', 0, '/boot-commander/categories', 'GET', '');
 insert into testcase_instance(name, description, testcase_id)
-values('Get BSID Import Scheduled Jobs', 'Get a list of all BSID Import scheduled job list', 0);
-insert into testcase(name, description, test_category_id, rest_url, http_method, http_data)
-values('Get VOD Import Scheduled Jobs', 'Get a list of all VOD Import scheduled job list', 0, '/scheduler/scheduledBatchJob/vodImport', 'GET', '');
-insert into testcase_instance(name, description, testcase_id)
-values('Get VOD Import Scheduled Jobs', 'Get a list of all BSID Import scheduled job list', 1);
+values('Get Categories', 'Get a list of all categoriest', 0);

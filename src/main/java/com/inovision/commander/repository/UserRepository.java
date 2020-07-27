@@ -12,5 +12,5 @@ import com.inovision.commander.model.User;
 public interface UserRepository extends CrudRepository<User, Integer>, UserTokenRepository{
 
 	public Optional<User> findByName(String name);
-	public Optional<User> findByUserName(String username);
+	public Optional<User> findByUsername(String username);
 }

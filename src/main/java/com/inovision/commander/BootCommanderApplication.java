@@ -1,41 +1,30 @@
 package com.inovision.commander;
 
-import java.util.Collections;
-
-import javax.sql.DataSource;
-
-import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.embedded.tomcat.TomcatWebServer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.StringUtils;
-
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication(scanBasePackages = {"com.inovision"})
 @EnableAutoConfiguration
-//@EnableSwagger2
+//@EnableConfigurationProperties(DatabaseProperties.class)
 public class BootCommanderApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BootCommanderApplication.class);
-	
+
 	public static void main(String[] args) {
 		LOGGER.info("Starting the Boot Commander application");
 		SpringApplication.run(BootCommanderApplication.class, args);
 	}
-	
+	/*
 	@Bean
-	public TomcatServletWebServerFactory  tomcatFactory() {
+	public TomcatServletWebServerFactory  tomcatFactory(@Autowired final DatabaseProperties databaseProperties) {
 		return new TomcatServletWebServerFactory () {
 
 			@Override
@@ -43,8 +32,10 @@ public class BootCommanderApplication {
 				ContextResource resource = new ContextResource();
 				resource.setName("jdbc/ApiTestDS");
 				resource.setType(DataSource.class.getName());
-				resource.setProperty("driverClassName", "org.hsqldb.jdbcDriver");
-				resource.setProperty("url", String.format("jdbc:hsqldb:hsql://%s:9001/testcasedb", getDBHost()));
+				resource.setProperty("driverClassName", databaseProperties.getDriverClassName());
+				resource.setProperty("url", databaseProperties.getJdbcUrl());
+				resource.setProperty("username", databaseProperties.getUser());
+				resource.setProperty("password", databaseProperties.getPassword());
 				context.getNamingResources().addResource(resource);
 			}
 			
@@ -53,19 +44,16 @@ public class BootCommanderApplication {
 				tomcat.enableNaming();
 				return super.getTomcatWebServer(tomcat);
 			}
-			
-			private String getDBHost() {
-				return StringUtils.isEmpty(System.getenv("DB_HOSTNAME")) ? "localhost" : System.getenv("DB_HOSTNAME");  
-			}
-			
 		};
 	}
 	
+	*/
+
 	@Bean
 	public BCryptPasswordEncoder getBCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	/*
 	 * Commenting out since it causes issues while running tests
 	 */
@@ -78,25 +66,22 @@ public class BootCommanderApplication {
 		bean.setLookupOnStartup(true);
 		return bean;
 	}
-	*/	
-	/*
+	*/
+
+
 	@Bean
-	public Docket swaggerConfig() {
-		
-		return new Docket(DocumentationType.SWAGGER_2)
-				.apiInfo(getApiInfo())
-				.select()
-				//.paths(PathSelectors.ant("/boot-commander/*"))
-				.apis(RequestHandlerSelectors.basePackage("com.inovision.commander"))
-				.build();
-		
-	}
-	
-	private ApiInfo getApiInfo() {
-		return new ApiInfo("Boot Commander API", "REST API for Boot Commander Application", "1.0", "Free to use", 
-				new springfox.documentation.service.Contact("Kunal Patil", "http://www.inovisionsoftware.com", "contact@inovisionsoftware.com"), 
-				"Apache License", "https://www.apache.org/licenses/LICENSE-2.0.html", Collections.emptyList());
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+//						.allowCredentials(true)
+//						.allowedHeaders("Authorization, Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, " +
+//								"Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, x-token")
+						.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+						.allowedOrigins("*");
+			}
+		};
 	}
 
-	 */
 }

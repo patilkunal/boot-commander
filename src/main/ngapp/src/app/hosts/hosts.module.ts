@@ -9,6 +9,7 @@ import { HostService } from './hosts.service';
 import { HostRoutingModule } from './hosts-routing.module';
 import { HostsListComponent } from './list/hosts-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CategoriesResolve } from '../categories/category-resolve';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
   exports: [],
   providers: [
     HostService, 
-    HostResolve
+    HostResolve,
+    CategoriesResolve
   ]
 })
 export class HostsModule { }

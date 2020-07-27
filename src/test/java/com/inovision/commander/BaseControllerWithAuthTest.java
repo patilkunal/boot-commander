@@ -17,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.test.context.TestPropertySource;
 
+@TestPropertySource(locations="classpath:test.properties")
 public abstract class BaseControllerWithAuthTest {
 	
 	private static String jwtToken = null;
@@ -36,8 +38,8 @@ public abstract class BaseControllerWithAuthTest {
 	private String getJWTToken() {
 		if(jwtToken != null) return jwtToken;
 		Map<String, String> map = new HashMap<String, String>();
-		//set data.sql for these values
-		map.put("userName", "kunal");
+		//set data-h2.sql for these values
+		map.put("username", "kunal");
 		map.put("password", "pass123");
 		
 		ResponseEntity<String> resp= this.restTemplate.postForEntity("/login", map, String.class);

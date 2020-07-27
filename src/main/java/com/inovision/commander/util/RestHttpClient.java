@@ -44,34 +44,34 @@ import com.inovision.commander.model.TestResult;
 public class RestHttpClient {
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestHttpClient.class);
 
-	private int maxHttpConnections;
-	private int httpConnectionTimeout;
-	private int socketTimeout;
+	private int maxHttpConnections = 10;
+	private int httpConnectionTimeout = 5000;
+	private int socketTimeout = 5000;
 
 	private PoolingHttpClientConnectionManager httpConnMgr;
 	private HttpClientBuilder clientBuilder;
 
-	public RestHttpClient() throws Exception {
-		// initialize();
-	}
+//	public RestHttpClient() throws Exception {
+//		// initialize();
+//	}
 
-	@Value("${http.maxconnections}")
+	@Value("${http.maxconnections:10}")
 	public void setMaxHttpConnections(int maxHttpConnections) {
 		this.maxHttpConnections = maxHttpConnections;
 	}
 
-	@Value("${http.connectiontimeout}")
+	@Value("${http.connectiontimeout:5000}")
 	public void setHttpConnectionTimeout(int httpConnectionTimeout) {
 		this.httpConnectionTimeout = httpConnectionTimeout;
 	}
 
-	@Value("${net.sockettimeout}")
+	@Value("${net.sockettimeout:5000}")
 	public void setSocketTimeout(int socketTimeout) {
 		this.socketTimeout = socketTimeout;
 	}
 
 	@PostConstruct
-	private void initialize() throws Exception {
+	protected void initialize() throws Exception {
 		LOGGER.info("Initializing RestHttpClient");
 
 		SSLContextBuilder ctxBuilder = new SSLContextBuilder();
@@ -122,70 +122,21 @@ public class RestHttpClient {
 	public TestResult doHttpGet(TestCase testCase, Host host) throws Exception {
 		HttpGet httpGet = new HttpGet(makeUrl(testCase, host));
 		return executeHttpCommand(httpGet, testCase);
-		/*
-		 * TestResult result = new TestResult(); CloseableHttpClient httpClient
-		 * = getHttpClient(); CloseableHttpResponse resp =
-		 * httpClient.execute(httpGet);
-		 * result.setErrorCode(resp.getStatusLine().getStatusCode());
-		 * if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-		 * result.setResult(getResponse(resp.getEntity()));
-		 * result.setSuccess(true); } else {
-		 * result.setError(resp.getStatusLine().toString()); }
-		 * 
-		 * return result;
-		 */
 	}
 
 	public TestResult doHttpDelete(TestCase testCase, Host host) throws Exception {
 		HttpDelete httpdelete = new HttpDelete(makeUrl(testCase, host));
 		return executeHttpCommand(httpdelete, testCase);
-		/*
-		 * TestResult response = new TestResult(); HttpDelete httpdelete = new
-		 * HttpDelete(makeUrl(testCase, host)); CloseableHttpClient httpClient =
-		 * getHttpClient(); try { CloseableHttpResponse resp =
-		 * httpClient.execute(httpdelete);
-		 * response.setErrorCode(resp.getStatusLine().getStatusCode());
-		 * if(resp.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-		 * response.setResult(getResponse(resp.getEntity()));
-		 * response.setSuccess(true); } else {
-		 * response.setError(resp.getStatusLine().toString()); } }
-		 * catch(Exception e) { response.setSuccess(false);
-		 * response.setError(e.getMessage()); } return response;
-		 */
 	}
 
 	public TestResult doHttpPost(TestCase testCase, Host host) throws Exception {
 		HttpPost httpPost = new HttpPost(makeUrl(testCase, host));
 		return executeHttpCommand(httpPost, testCase);
-		/*
-		 * TestResult response = new TestResult(); HttpPost httpPost = new
-		 * HttpPost(makeUrl(testCase, host)); HttpEntity entity = new
-		 * StringEntity(testCase.getData()); httpPost.setEntity(entity);
-		 * CloseableHttpClient httpClient = getHttpClient();
-		 * //httpPost.setHeader("Content-Type", "application/json"); try {
-		 * CloseableHttpResponse resp = httpClient.execute(httpPost);
-		 * response.setResult(getResponse(resp.getEntity()));
-		 * response.setErrorCode(resp.getStatusLine().getStatusCode());
-		 * response.setSuccess(true); } catch(Exception e) {
-		 * response.setSuccess(false); response.setError(e.getMessage()); }
-		 * return response;
-		 */
 	}
 
 	public TestResult doHttpPut(TestCase testCase, Host host) throws Exception {
 		HttpPut httpput = new HttpPut(makeUrl(testCase, host));
 		return executeHttpCommand(httpput, testCase);
-		/*
-		 * TestResult response = new TestResult(); HttpPut httpput = new
-		 * HttpPut(makeUrl(testCase, host)); HttpEntity entity = new
-		 * StringEntity(testCase.getData()); httpput.setEntity(entity);
-		 * CloseableHttpClient httpClient = getHttpClient();
-		 * //httpPost.setHeader("Content-Type", "application/json");
-		 * CloseableHttpResponse resp = httpClient.execute(httpput);
-		 * response.setResult(getResponse(resp.getEntity()));
-		 * response.setErrorCode(resp.getStatusLine().getStatusCode());
-		 * response.setSuccess(true); return response;
-		 */
 	}
 
 	private TestResult executeHttpCommand(HttpRequestBase request, TestCase testCase) throws Exception {
@@ -196,7 +147,6 @@ public class RestHttpClient {
 			req.setEntity(entity);
 		}
 		CloseableHttpClient httpClient = getHttpClient();
-		// httpPost.setHeader("Content-Type", "application/json");
 		try {
 			CloseableHttpResponse resp = httpClient.execute(request);
 			response.setReturnCode(resp.getStatusLine().getStatusCode());

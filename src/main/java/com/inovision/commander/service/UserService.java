@@ -1,5 +1,6 @@
 package com.inovision.commander.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,12 @@ public class UserService {
 	
 	public List<User> getUsers() {
 		return userDAO.getUsersUsingMap();
+	}
+
+	public List<User> getUsers2() {
+		List<User> list = new ArrayList<>();
+		userRepository.findAll().forEach((u) -> list.add(u));
+		return list;
 	}
 
 }

@@ -1,18 +1,11 @@
 package com.inovision.commander.model;
 
+import javax.persistence.*;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
-@Table(name="USERS")
+@Table(name="users")
 @NamedQueries(
 	{
 		@NamedQuery(name="User.UpdateTokenAccess",query="Update User u set u.tokenAccessDate = ?1 where u.name = ?2"),
@@ -22,25 +15,28 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@Column(name="USERNAME", unique=true, nullable=false)
-	private String userName;
+	@Column(name="username", unique=true, nullable=false)
+	private String username;
 	
 	@Column(nullable=false)
 	private String password;
 	private String name;
 	private String email;
 	
-	@Column(name="TOKEN")
+	@Column(name="token")
 	private String token;
 	
-	@Column(name="TOKEN_CREATE_TS")
+	@Column(name="token_create_ts")
 	private Date tokenCreateDate;
 
-	@Column(name="TOKEN_ACCESS_TS")
+	@Column(name="token_access_ts")
 	private Date tokenAccessDate;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private Set<UserRole> roles;
 	
 	public int getId() {
 		return id;
@@ -48,11 +44,11 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -90,10 +86,12 @@ public class User {
 	public void setTokenCreateDate(Date tokenCreateDate) {
 		this.tokenCreateDate = tokenCreateDate;
 	}
+	public Set<UserRole> getRoles() { return this.roles; }
+	public void setRoles(Set<UserRole> roles) { this.roles = roles; }
 	
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", name=" + name + ", email=" + email + "]";
+		return "User [userName=" + username + ", name=" + name + ", email=" + email + "]";
 	}
 	
 }

@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandlerModule } from './error-handler/error-handler.module';
 // import { TokenStorage } from './TokenStorage';
 import { ModalDialogModule } from './dialog/modal-dialog.module';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -12,9 +13,10 @@ import { ModalDialogModule } from './dialog/modal-dialog.module';
     ErrorHandlerModule,
     ModalDialogModule
   ],
-  declarations: [],
+  declarations: [PaginationComponent],
   providers: [
     // TokenStorage
-  ]
+  ],
+  exports: [PaginationComponent]
 })
 export class SharedModule { }

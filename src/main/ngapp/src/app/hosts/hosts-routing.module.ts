@@ -4,6 +4,7 @@ import { HostsListComponent } from './list/hosts-list.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth/auth.guard';
+import { CategoriesResolve } from '../categories/category-resolve';
 
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
                 path: ':id',
                 component: HostDetailComponent,
                 resolve: {
-                    host: HostResolve
+                    host: HostResolve,
+                    categories: CategoriesResolve
                 }
             }
         ]

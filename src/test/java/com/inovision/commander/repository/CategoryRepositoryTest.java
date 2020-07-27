@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.inovision.commander.model.Category;
@@ -15,6 +16,7 @@ import junit.framework.TestCase;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@TestPropertySource(locations="classpath:test.properties")
 public class CategoryRepositoryTest extends TestCase {
 
 	@Autowired

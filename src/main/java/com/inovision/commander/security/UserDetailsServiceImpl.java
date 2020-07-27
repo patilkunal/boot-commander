@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		LOGGER.trace("JWT Trying to find user by userName {}", username);
 		
-		Optional<User> optional = userRepository.findByUserName(username);
+		Optional<User> optional = userRepository.findByUsername(username);
 		if(optional.isPresent()) {
 			User user = optional.get();
 			LOGGER.debug("JWT Found following user after authentication: {}", user);

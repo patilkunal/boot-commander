@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SuppressWarnings("deprecation")
-@Configuration
+//@Configuration
 public class CorsConfiguration {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CorsConfiguration.class);
@@ -18,7 +18,7 @@ public class CorsConfiguration {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**");
+				registry.addMapping("/**").allowedOrigins("*");
 			}
 		};
 	}

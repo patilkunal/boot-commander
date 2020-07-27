@@ -1,75 +1,41 @@
 package com.inovision.commander.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+
+@ApiModel(description = "Describes HTTP host/server object")
 @Entity
-@Table(name="HOSTS")
+@Table(name="hosts")
+@Data
+@EqualsAndHashCode(of = {"id"})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Host {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "host_id_seq")
+	@SequenceGenerator(name = "host_id_seq", sequenceName = "hosts_id_seq", allocationSize = 1)
 	private int id = -1;
 	
-	@Column(name="NAME")
+	@Column(name="name")
 	private String name;
 	
-	@Column(name="HOSTNAME")
+	@Column(name="hostname")
 	private String hostName;
 	
-	@Column(name="PORT")
+	@Column(name="port")
 	private int port;
 	
-	@Column(name="SECUREHTTP")
+	@Column(name="securehttp", columnDefinition = "TINYINT")
+	@org.hibernate.annotations.Type(type = "org.hibernate.type.NumericBooleanType")
 	private boolean secureHttp;
 
 	@ManyToOne // Since there is no mapped by, Host does not own this relationship
-	@JoinColumn(name="TEST_CATEGORY_ID")
+	@JoinColumn(name="test_category_id")
 	private Category category;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getHostName() {
-		return hostName;
-	}
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
-	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
-	public boolean isSecureHttp() {
-		return secureHttp;
-	}
-	public void setSecureHttp(boolean secureHttp) {
-		this.secureHttp = secureHttp;
-	}
-	public Category getCategory() {
-		return category;
-	}
-	public void setCategory(Category category) {
-		this.category = category;
-	}
 	
 	@Override
 	public String toString() {
@@ -77,17 +43,7 @@ public class Host {
 				+ secureHttp + ", category=" + category + "]";
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		return (obj != null) && (obj instanceof Host) && (this.id == ((Host)obj).id);
-	}
-	
-	@Override
-	public int hashCode() {
-		return 37 * id;
-	}
-
-	public String toUrlFormat() {		
+	public String toUrlFormat() {
 		return String.format("%s://%s:%d", secureHttp ? "https" : "http", hostName, port);
 	}	
 }

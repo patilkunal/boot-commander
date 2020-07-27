@@ -9,6 +9,8 @@ import { CategoriesService } from './categories.service';
 import { CategoryResolve } from './category-resolve';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandlerModule } from '../shared/error-handler/error-handler.module';
+import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   // imports only accept NgModules
@@ -17,7 +19,8 @@ import { ErrorHandlerModule } from '../shared/error-handler/error-handler.module
     CategoriesRoutingModule,
     FormsModule,
     HttpClientModule,
-    ErrorHandlerModule
+    ErrorHandlerModule,
+    SharedModule
   ],
   // declaration only accept component, pipe or directive
   declarations: [

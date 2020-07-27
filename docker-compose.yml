@@ -8,17 +8,29 @@ services:
       - "9001:9001"
     volumes:
       - testcasedb-data:/data
-  
+
+  postgres-db:
+    restart: always
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: testcasedb
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+    volumes:
+      - testcasedb-data:/var/lib/postgresql/data
+
   boot-commander:
     restart: always
     image: boot-commander
     depends_on:
-      - hsqldb
+      - postgres-db
     build:
       context: .
       dockerfile: Dockerfile-hub
     ports:
-      - "9090:9090"
+      - "8080:8080"
     environment:
       - DB_HOSTNAME=hsqldb
 

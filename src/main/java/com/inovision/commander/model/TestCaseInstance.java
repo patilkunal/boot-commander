@@ -1,114 +1,46 @@
 package com.inovision.commander.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name="TESTCASE_INSTANCE")
+@Table(name="testcase_instance")
+@Data
+@EqualsAndHashCode(of = {"id"})
 public class TestCaseInstance {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name="TESTCASE_ID")
+	@JoinColumn(name="testcase_id")
 	private TestCaseDefinition testCaseDefinition;
 	
 	@OneToOne
-	@JoinColumn(name="USER_ID")
+	@JoinColumn(name="user_id")
 	private User user;
 	
-	@Column(name="VALIDATE_OUTPUT")
+	@Column(name="validate_output")
 	private boolean validateOutput;
 	
-	@Column(name="OUTPUT_TEMPLATE")
+	@Column(name="output_template")
 	private String outputTemplate;
 	
-	@Column(name="ALLOW_BLANK_OUTPUT")
+	@Column(name="allow_blank_output")
 	private boolean allowBlankOutput;
 	
-	@Column(name="VALIDATE_TYPE")
+	@Column(name="validate_type")
+	@Enumerated(EnumType.STRING)
 	private ValidateType validateType;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public TestCaseDefinition getTestCaseDefinition() {
-		return testCaseDefinition;
-	}
-
-	public void setTestCaseDefinition(TestCaseDefinition testCaseDefinition) {
-		this.testCaseDefinition = testCaseDefinition;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public boolean isValidateOutput() {
-		return validateOutput;
-	}
-
-	public void setValidateOutput(boolean validateOutput) {
-		this.validateOutput = validateOutput;
-	}
-
-	public String getOutputTemplate() {
-		return outputTemplate;
-	}
-
-	public void setOutputTemplate(String outputTemplate) {
-		this.outputTemplate = outputTemplate;
-	}
-
-	public boolean isAllowBlankOutput() {
-		return allowBlankOutput;
-	}
-
-	public void setAllowBlankOutput(boolean allowBlankOutput) {
-		this.allowBlankOutput = allowBlankOutput;
-	}
-
-	public ValidateType getValidateType() {
-		return validateType;
-	}
-
-	public void setValidateType(ValidateType validateType) {
-		this.validateType = validateType;
-	}
 
 	@Override
 	public String toString() {
 		return "TestCaseInstance [id=" + id + ", testCaseDefinition=" + testCaseDefinition + ", user=" + user
 				+ ", validateOutput=" + validateOutput + ", outputTemplate=" + outputTemplate + ", allowBlankOutput="
 				+ allowBlankOutput + ", validateType=" + validateType + "]";
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		return (obj != null) && (obj instanceof TestCaseInstance) && (this.id == ((TestCaseInstance)obj).id);
-	}
-	
-	@Override
-	public int hashCode() {
-		return 37 * id;
 	}
 	
 }

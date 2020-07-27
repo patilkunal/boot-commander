@@ -3,19 +3,19 @@
 		Hosts
 	</div>
 	<div class="card-body">
-		
-		<table class="table table-bordered table-condensed table-striped">
+    <div class="float-sm-right" style="padding:10px"><button type="button" class="btn btn-primary" [routerLink]="['../-1']">New</button></div>
+    <table class="table table-bordered table-condensed table-striped">
 			<tr><th>Name</th><th>Hostname</th><th>Port</th><th>Secure</th><th>&nbsp;</th></tr>
 			<tr *ngFor="let host of hosts">
 				<td>{{host.name}}</td>
-				<td>{{host.hostname}}</td>
+				<td>{{host.hostName}}</td>
 				<td>{{host.port}}</td>
 				<td>{{((host.secureHttp) ?  'Yes' : 'No')}}</td>
 				<td>
 					<button type="button" class="btn btn-primary" [routerLink]="['../' + host.id]">Edit</button> &nbsp; &nbsp;
 					<button type="button" class="btn btn-danger" (click)="deleteHost(host)">Delete</button>
 				</td>
-			</tr>	
+			</tr>
 		</table>
 	</div>
 </div>

@@ -1,0 +1,28 @@
+[
+    {
+        "id": 1,
+        "hostName": "Local",
+        "port": 8080,
+        "secureHttp": true,
+        "category": {
+            "id":1,
+            "name" : "Boot Commander",
+            "description": "Category for boot commander",
+            "testCount": 0,
+            "testCases": null
+        }
+    },
+    {
+        "id": 2,
+        "hostName": "Local",
+        "port": 80,
+        "secureHttp": false,
+        "category": {
+            "id":1,
+            "name" : "Boot Commander",
+            "description": "Category for boot commander",
+            "testCount": 0,
+            "testCases": null
+        }
+    }
+]

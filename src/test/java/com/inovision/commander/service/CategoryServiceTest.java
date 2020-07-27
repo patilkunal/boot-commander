@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.inovision.commander.exception.NotfoundException;
@@ -24,6 +25,7 @@ import junit.framework.TestCase;
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
+@TestPropertySource(locations="classpath:test.properties")
 public class CategoryServiceTest extends TestCase { 
 
 	// test spring configuration which provides the service bean class in context  

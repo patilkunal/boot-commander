@@ -23,8 +23,14 @@
         </label>
         <label class="radio-inline col-sm-2">
             <input type="radio" name="secureHttp" [value]="false" [(ngModel)]="host.secureHttp"> No
-        </label>        
+        </label>
     </div>
+  <div class="form-group">
+    <label for="category" class="control-label col-sm-2">Category</label>
+    <select class="form-control col-sm-10" id="category" name="category" [(ngModel)]="host.category" [compareWith]="compareCategory">
+      <option *ngFor="let cat of categories" [ngValue]="cat">{{cat.name}}</option>
+    </select>
+  </div>
       <button type="button" class="btn btn-primary col-sm-2" (click)="save()" name="save" [disabled]="!hostDetailForm.form.valid">Save</button>
       <button type="button" class="btn btn-default col-sm-2 offset-1" (click)="cancel()" name="cancel">Cancel</button>
 </form>

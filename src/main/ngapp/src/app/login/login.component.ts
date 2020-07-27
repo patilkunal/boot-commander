@@ -13,7 +13,7 @@ import { AlertService } from '../common/alert/alert.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userName: string;
+  username: string;
   password: string;
   loginForm: FormGroup;
   submitted = false;
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authFailed = false;
     this.loginForm = this.formBuilder.group({
-      userName: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
     const isLogout: boolean = (this.actRoute.snapshot.queryParams['logout'] != null);
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.submitted = true;
     if (this.loginForm.valid) {
-      this.authService.attemptAuth(this.loginForm.get('userName').value, this.loginForm.get('password').value).subscribe(
+      this.authService.attemptAuth(this.loginForm.get('username').value, this.loginForm.get('password').value).subscribe(
         (data: HttpResponse<any>) => {
           const token = data.headers.get('Authorization');
           console.log('Got Auth token as ' + token);
