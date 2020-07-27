@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -13,7 +16,9 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private _location: Location,
+    private alertController: AlertController
   ) {
     this.initializeApp();
   }
@@ -23,5 +28,60 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
+
+    // HANDLE App Back button to confirm exit of app
+  this.platform.backButton.subscribeWithPriority(10, (processNextHandler) => {
+    console.log('Back press handler!');
+    if (this._location.isCurrentPathEqualTo('/home')) {
+
+      // Show Exit Alert!
+      console.log('Show Exit Alert!');
+      this.showExitConfirm();
+      processNextHandler();
+    } else {
+
+      // Navigate to back page
+      console.log('Navigate to back page');
+      this._location.back();
+
+    }
+
+  });
+
+  this.platform.backButton.subscribeWithPriority(5, () => {
+    console.log('Handler called to force close!');
+    this.alertController.getTop().then(r => {
+      if (r) {
+        navigator['app'].exitApp();
+      }
+    }).catch(e => {
+      console.log(e);
+    })
+  });
+
+}
+
+showExitConfirm() {
+  this.alertController.create({
+    header: 'BootCommander',
+    message: 'Do you want to close the app?',
+    backdropDismiss: false,
+    buttons: [{
+      text: 'Stay',
+      role: 'cancel',
+      handler: () => {
+        console.log('Application exit prevented!');
+      }
+    }, {
+      text: 'Exit',
+      handler: () => {
+        navigator['app'].exitApp();
+      }
+    }]
+  })
+    .then(alert => {
+      alert.present();
+    });
+}
+
 }
