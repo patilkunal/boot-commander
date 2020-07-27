@@ -16,6 +16,7 @@ export class ListHostsPage implements OnInit, OnDestroy, AfterViewInit {
   filteredHosts: Host[];
   hostsSub: Subscription;
   @ViewChild('hostlist') ionlist: IonList;
+  @ViewChild('hostsearch') search: IonSearchbar;
 
   constructor(
     private route: Router,
@@ -46,12 +47,13 @@ export class ListHostsPage implements OnInit, OnDestroy, AfterViewInit {
     // TODO: if host is used for test run, do not delete it
     const modal = await this.alertController.create({
       header: 'Confirm',
-      message: 'Delete host?',
+      message: `Delete host ${host.name}?`,
       buttons: [
         {
           text: 'Yes',
           handler: () => {
             this.ionlist.closeSlidingItems();
+            this.search.value = '';
             this.hostService.deleteHost(host.id).then(() => {
               this.route.navigate(['/secured/hosts/list'], { queryParams: { 'refresh': 1 } });
             }).catch((err) => {
@@ -71,6 +73,16 @@ export class ListHostsPage implements OnInit, OnDestroy, AfterViewInit {
 
   edit(id: number) {
     this.route.navigate(['/secured/hosts/edit/' + id]);
+  }
+
+  doRefresh(evt) {
+      this.hostService.getHosts().then((data) => {
+        evt.target.complete();
+        this.ionlist.closeSlidingItems();
+        this.search.value = '';
+        this.hosts = data;
+        this.filteredHosts = data;
+      })
   }
 
   async filterHosts(evt) {

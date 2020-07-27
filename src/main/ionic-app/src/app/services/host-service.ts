@@ -11,8 +11,8 @@ export class HostService {
     constructor(private httpService: HttpService) {
     }
   
-    getHosts(): Observable<Host[]> {
-        return this.httpService.get('/hosts');
+    getHosts(): Promise<Host[]> {
+        return this.httpService.get('/hosts').toPromise();
     }
 
     getHost(id: number): Observable<Host> {
