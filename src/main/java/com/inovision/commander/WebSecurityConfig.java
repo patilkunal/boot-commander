@@ -2,6 +2,7 @@ package com.inovision.commander;
 
 import com.inovision.commander.filter.JWTAuthenticationFilter;
 import com.inovision.commander.filter.JWTAuthorizationFilter;
+import com.inovision.commander.security.SecurityConstants;
 import com.inovision.commander.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private SecurityConstants securityConstants;
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,8 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         		"/swagger-resources/**").permitAll()
         .anyRequest().authenticated()
         .and()
-        .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService))
-        .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+        .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService, securityConstants))
+        .addFilter(new JWTAuthorizationFilter(authenticationManager(), securityConstants))
         //this disables session creation on Spring Security
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         

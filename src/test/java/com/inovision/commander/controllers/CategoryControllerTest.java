@@ -84,6 +84,7 @@ public class CategoryControllerTest extends BaseControllerWithAuthTest {
 		ErrorResponse error = resp.getBody();
 		assertNotNull(error);
 		assertEquals(404, error.getStatus());
+		System.out.println("*****************" + error.getMessage());
 		assertTrue(error.getMessage().contains("Category not found"));
 		
 	}

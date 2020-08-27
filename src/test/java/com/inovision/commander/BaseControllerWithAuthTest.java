@@ -26,13 +26,18 @@ public abstract class BaseControllerWithAuthTest {
 	
 	@Autowired
 	protected TestRestTemplate restTemplate;
+
+	private boolean initialized = false;
 	
 	@Before
 	public void initializeTestTemplate() {
-		String token = getJWTToken();
-		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
-		interceptors.add(new CustomRequestInterceptor(token));
-		restTemplate.getRestTemplate().setInterceptors(interceptors);
+		if(!initialized) {
+			String token = getJWTToken();
+			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<ClientHttpRequestInterceptor>();
+			interceptors.add(new CustomRequestInterceptor(token));
+			restTemplate.getRestTemplate().setInterceptors(interceptors);
+			initialized = true;
+		}
 	}
 	
 	private String getJWTToken() {
@@ -42,7 +47,7 @@ public abstract class BaseControllerWithAuthTest {
 		map.put("username", "kunal");
 		map.put("password", "pass123");
 		
-		ResponseEntity<String> resp= this.restTemplate.postForEntity("/login", map, String.class);
+		ResponseEntity<String> resp= restTemplate.postForEntity("/login", map, String.class);
 		assertTrue(resp.getStatusCode().is2xxSuccessful());
 		HttpHeaders headers = resp.getHeaders();
 		jwtToken = (String) headers.getFirst(HttpHeaders.AUTHORIZATION);

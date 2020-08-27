@@ -1,12 +1,20 @@
 package com.inovision.commander.security;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@ConfigurationProperties(prefix = "security")
+@Component
 public class SecurityConstants {
 
-    public static final String SECRET = "SecretKeyToGenJWTs";
-    public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String SIGN_UP_URL = "/users/sign-up";
-    public static final String USER_ROLE = "USER_ROLE";
-    
+    public static final String ROLE_CLAIM = "USER_ROLE";
+
+    @Value("${secret:SecretKeyToGenJWTs}")
+    public String SECRET;
+    @Value("${token_expiration:864000000}") // 10 days
+    public long EXPIRATION_TIME;
+
 }

@@ -1,17 +1,9 @@
 package com.inovision.commander.filter;
 
-import static com.inovision.commander.security.SecurityConstants.HEADER_STRING;
-import static com.inovision.commander.security.SecurityConstants.SECRET;
-import static com.inovision.commander.security.SecurityConstants.TOKEN_PREFIX;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.inovision.commander.security.SecurityConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,16 +11,25 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import static com.inovision.commander.security.SecurityConstants.HEADER_STRING;
+import static com.inovision.commander.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
-	
-	public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
+
+	private SecurityConstants securityConstants;
+
+	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, SecurityConstants securityConstants) {
 		super(authenticationManager);
+		this.securityConstants = securityConstants;
 	}
 	
 	@Override
@@ -51,7 +52,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		String token = req.getHeader(HEADER_STRING);
 		LOGGER.debug("Authorization: {}", token);
 		if(token != null) {
-			 DecodedJWT jwt = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
+			 DecodedJWT jwt = JWT.require(Algorithm.HMAC512(securityConstants.SECRET.getBytes()))
 					.build()
 					.verify(token.replace(TOKEN_PREFIX, ""));
 					String user = jwt.getSubject();

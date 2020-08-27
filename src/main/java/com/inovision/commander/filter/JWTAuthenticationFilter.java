@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.inovision.commander.dto.UserDTO;
 import com.inovision.commander.model.User;
 import com.inovision.commander.model.UserRole;
+import com.inovision.commander.security.SecurityConstants;
 import com.inovision.commander.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,6 @@ import java.util.stream.Collectors;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static com.inovision.commander.security.SecurityConstants.*;
 
-;
-
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -36,11 +35,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private AuthenticationManager authenticationManager;
 	private UserService userService;
+	private SecurityConstants securityConstants;
 
-	public JWTAuthenticationFilter(AuthenticationManager authManager, UserService userService) {
+	public JWTAuthenticationFilter(AuthenticationManager authManager, UserService userService, SecurityConstants securityConstants) {
 		
 		this.authenticationManager = authManager;
 		this.userService = userService;
+		this.securityConstants = securityConstants;
 	}
 	
 	@Override
@@ -83,10 +84,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		List<String> roleNames = roles.stream().map(ur -> ur.getRole()).collect(Collectors.toList());
         String token = JWT.create()
                 .withSubject(userName)
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-				.withClaim(USER_ROLE, roleNames)
+                .withExpiresAt(new Date(System.currentTimeMillis() + securityConstants.EXPIRATION_TIME))
+				.withClaim(ROLE_CLAIM, roleNames)
 				.withIssuer("http://bootcommander.herokuapps.com")
-                .sign(HMAC512(SECRET.getBytes()));
+                .sign(HMAC512(securityConstants.SECRET.getBytes()));
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 		response.addHeader("x-token", token);
 		response.addHeader("Access-Control-Expose-Headers", "*");
