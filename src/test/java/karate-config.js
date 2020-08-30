@@ -8,7 +8,7 @@ function fn() {
 
     var config = {
         env: env,
-        baseURI: 'http://localhost:9090/boot-commander',
+        baseURI: 'http://localhost:8080/boot-commander',
         bearerToken: ''
     }
 

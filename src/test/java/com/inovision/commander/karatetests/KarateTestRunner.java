@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 @KarateOptions(tags = {"~@ignore"})
 @IfProfileValue(name = "karate.tests", value="true")
-@Ignore
+//@Ignore
 public class KarateTestRunner {
     @Test
     public void testParallel() {

@@ -1,5 +1,7 @@
 package com.inovision.commander.model;
 
+import org.hibernate.annotations.GeneratorType;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -15,7 +17,8 @@ import java.util.Set;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_seq_gen")
+	@SequenceGenerator(name="user_seq_gen", sequenceName = "users_id_seq")
 	private int id;
 	
 	@Column(name="username", unique=true, nullable=false)
