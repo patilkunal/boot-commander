@@ -1,5 +1,35 @@
-<ion-tabs>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Main</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu="secured-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
+<ion-menu menuId="secured-menu" contentId="secured">
+  <ion-content>
+    <div class="menu-header-bg"></div>
+    <div class="header-content">
+      <img src="../assets/images/avatar.jpg" alt="">
+      <ion-label>
+        <h2>Mr. Advani</h2>
+        <p>Title here</p>
+      </ion-label>
+    </div>
+    <div class="action-button">
+      <ion-button>
+        <ion-icon slot="start" name="pencil"></ion-icon> Edit Profile
+      </ion-button>
+    </div>
+  </ion-content>
+</ion-menu>
+
+<ion-content>
+  <ion-router-outlet id="secured"></ion-router-outlet>
+</ion-content>
+
+<ion-tabs>
   <ion-tab-bar slot="bottom">
       <ion-tab-button tab="overview">
       <ion-icon name="grid"></ion-icon>

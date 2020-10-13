@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoriesPage implements OnInit {
 
+  pageName = 'Categories';
+
   constructor() { }
 
   ngOnInit() {

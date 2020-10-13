@@ -16,6 +16,7 @@ export class EditHostsPage implements OnInit {
   categories: Category[];
   hostForm: FormGroup;
   isSubmitted = false;
+  pageName = 'Edit Host';
 
   constructor(
     private activatedRoute: ActivatedRoute,

@@ -4,12 +4,13 @@ import { LogoComponent } from './logo/logo.component';
 import { SlidesComponent } from './slides/slides.component';
 import { IonicModule } from '@ionic/angular';
 import { StartComponent } from './start/start.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 
 
 @NgModule({
-  declarations: [LogoComponent, SlidesComponent, StartComponent],
-  exports: [LogoComponent, SlidesComponent, StartComponent],
+  declarations: [LogoComponent, SlidesComponent, StartComponent, PrivacyComponent],
+  exports: [LogoComponent, SlidesComponent, StartComponent, PrivacyComponent],
   imports: [
     CommonModule, IonicModule
   ]

@@ -1,6 +1,6 @@
 ```
 ionic generate component public/components/start
-ionic generate module public
+ionic generate page public
 ionic generate page public/login
 ionic generate guard guards/secured
 ```

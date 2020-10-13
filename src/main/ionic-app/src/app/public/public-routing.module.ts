@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PublicPage } from './public.page';
 import { PublicGuard } from '../guards/public.guard';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { TandcComponent } from './components/tandc/tandc.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
       {
         path: 'welcome',
         loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
+      },
+      {
+        path: 'privacy',
+        component: PrivacyComponent
+      },
+      {
+        path: 'tandc',
+        component: TandcComponent
       }
       ]
   },
